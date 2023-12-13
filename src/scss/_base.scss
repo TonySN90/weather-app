@@ -1,0 +1,16 @@
+body {
+  background-color: #00172d;
+  color: $color-font-primary;
+  font-family: $font-family-primary;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: $color-font-primary;
+}

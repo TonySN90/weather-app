@@ -1,0 +1,43 @@
+.header__container {
+  position: relative;
+
+  .header__image img {
+    width: 100%;
+    z-index: -1;
+  }
+  .header__location-info {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+  }
+
+  .header__search-bar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    display: flex;
+    justify-content: right;
+    gap: 1rem;
+
+    & input {
+      width: 60%;
+      padding-left: 1rem;
+
+      border: 2px solid $color-font-primary;
+      border-radius: 1rem;
+      background-color: transparent;
+      color: $color-font-primary;
+      opacity: 0;
+
+      //   &:focus {
+      //     border: none;
+      //   }
+    }
+  }
+
+  .header__container-current-location-button {
+    background-color: transparent;
+    border: none;
+  }
+}

@@ -1,4 +1,4 @@
-import "./../scss/style.scss";
+import "./../scss/main.scss";
 
 // const locationInput = document.getElementById("locationInput");
 // const weatherContainer = document.getElementById("weatherContainer");
