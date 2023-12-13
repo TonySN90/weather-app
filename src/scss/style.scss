@@ -1,8 +1,45 @@
+$color-primary: #00172d;
+$color-secondary: #02223d;
+$color-mountain-bg-1: #3a4768;
+$color-mountain-bg-2: #538daa;
+
 body {
-  background-color: #212121;
+  background-color: #00172d;
   color: #fff;
 }
 
-.header__logo img {
-  width: 50%;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.header__container {
+  position: relative;
+
+  .header__image img {
+    width: 100%;
+    z-index: -1;
+  }
+  .header__location-info {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+  }
+
+  .header__container-current-location-button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    background-color: transparent;
+    border: none;
+  }
 }
