@@ -11,12 +11,17 @@ body {
 }
 
 .icon {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: $color-font-primary;
 }
 
 .icon--middle {
-  width: $icon-size-middle;
+  color: $color-font-primary;
+  font-size: $icon-size-middle;
+}
+
+.icon--big {
+  width: $icon-size-big;
 }
 
 .title--margin {

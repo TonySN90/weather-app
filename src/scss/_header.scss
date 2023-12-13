@@ -6,6 +6,7 @@
     z-index: -1;
   }
   .header__location-info {
+    font-size: 1.1rem;
     position: absolute;
     left: 1rem;
     top: 1rem;
@@ -29,10 +30,6 @@
       background-color: transparent;
       color: $color-font-primary;
       opacity: 0;
-
-      //   &:focus {
-      //     border: none;
-      //   }
     }
   }
 
