@@ -7,20 +7,19 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
+
   max-width: 50rem;
-  margin-inline: 1rem;
+  margin: 0 1rem 1.5rem 1rem;
+  border-radius: $textblock-border-radius;
+  background-color: $color-textblock-bg-blur;
 
   .hourly-forecast__list-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
-
     width: 100%;
     padding: 0.5rem;
-
-    border-radius: $textblock-border-radius;
-    background-color: $color-textblock-bg-blur;
 
     .hourly-forecast__time {
       width: 4rem;

@@ -80,13 +80,11 @@
     </section>
 
     <!-- 
-      Todays Highlights section
+      hourly-forecast
      -->
 
     <section id="hourly-forecast">
-      <div class="hourly-forecast__title" style="margin-inline: 1rem">
-        Tagesvorhersage
-      </div>
+      <div class="hourly-forecast__title title--margin">Stundenvorhersage</div>
       <ul class="hourly-forecast__list">
         <div class="hourly-forecast__list-card">
           <div class="hourly-forecast__time">2 Uhr</div>
@@ -175,11 +173,41 @@
           />
           <div class="hourly-forecast__temperature">15°C</div>
           <i class="fa-solid fa-wind icon"></i>
-          <div class="hourly-forecast__windinformationens">10 km/h</div>
+          <div class="hourly-forecast__windinformations">10 km/h</div>
           <i class="fa-solid fa-umbrella icon"></i>
           <div class="hourly-forecast__rain-probability">60%</div>
         </div>
       </ul>
+    </section>
+
+    <!-- 
+      sunrise/sunset section
+     -->
+
+    <section id="sunrise-sunset">
+      <div class="sunrise-sunset__title title--margin">
+        Sonnenauf- und Untergang
+      </div>
+      <div class="sunrise-sunset__container">
+        <div class="sunrise__container">
+          <img
+            src="./img/icon_sunrise.png"
+            alt=""
+            class="sunrise__image icon--middle"
+          />
+          <div class="sunrise__titel">Sonnenaufgang</div>
+          <div class="sunrise__time">8:22 Uhr</div>
+        </div>
+        <div class="sunset__container">
+          <img
+            src="./img/icon__halfmoon.png"
+            alt=""
+            class="sunrise__image icon--middle"
+          />
+          <div class="sunset__titel">Sonnenuntergang</div>
+          <div class="sunset__time">15:52 Uhr</div>
+        </div>
+      </div>
     </section>
 
     <!-- 
