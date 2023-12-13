@@ -2,7 +2,7 @@
   margin-bottom: 0.5rem;
 }
 
-.hourly-forecast__list {
+.forecast__list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -13,7 +13,7 @@
   border-radius: $textblock-border-radius;
   background-color: $color-textblock-bg-blur;
 
-  .hourly-forecast__list-card {
+  .forecast__list-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,11 +21,11 @@
     width: 100%;
     padding: 0.5rem;
 
-    .hourly-forecast__time {
-      width: 4rem;
+    .forecast__time {
+      width: 7rem;
     }
 
-    .hourly-forecast__icon {
+    .forecast__icon {
       width: 1.8rem;
     }
   }
