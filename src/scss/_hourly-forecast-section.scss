@@ -1,0 +1,25 @@
+.hourly-forecast__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 50rem;
+
+  .hourly-forecast__list-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+
+    align-items: center;
+    width: 6.5rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+
+    border-radius: $textblock-border-radius;
+    background-color: $color-textblock-bg-blur;
+
+    .hourly-forecast__icon {
+      width: 3rem;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+#now-section {
+  display: flex;
+  //   justify-content: end;
+  width: 100%;
+}
+
+@mixin positioning-now-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.now-section__container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1.2rem;
+  z-index: 1;
+
+  margin: -1rem auto 1rem auto;
+  padding: $textblock-padding;
+  border-radius: $textblock-border-radius;
+
+  .now-section__title {
+    font-size: 3.5rem;
+  }
+
+  .now-section__sky-informations-container {
+    @include positioning-now-box();
+
+    & img {
+      width: 4rem;
+    }
+  }
+
+  .now-section__rain-probability-containter {
+    @include positioning-now-box();
+
+    & i {
+      margin-top: 3px;
+    }
+  }
+}
