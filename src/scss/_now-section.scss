@@ -1,5 +1,4 @@
 #now-section {
-  display: flex;
   width: 100%;
 }
 
@@ -11,19 +10,26 @@
 }
 
 .now-section__container {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-rows: 4rem;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   z-index: 1;
-  width: 80%;
 
-  // background-color: $color-textblock-bg-blur;
+  width: 80%;
   margin: 0 auto 1rem auto;
   padding: $textblock-padding;
   border-radius: $textblock-border-radius;
 
-  .now-section__title {
+  .grid-item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .now-section__temperature {
     font-size: 3.5rem;
   }
 
