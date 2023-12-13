@@ -3,8 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <script type="module" src="./js/main.js"></script>
-    <title>WeatherApp</title>
+    <title>weatherbro</title>
+
+    <meta name="title" content="weatherbro" />
+    <meta
+      name="description"
+      content="weatherbro is a weather app made by Tony Heider"
+    />
   </head>
-  <body></body>
+  <body>
+    <!-- 
+      HEAD
+     -->
+    <header class="header">
+      <div class="header__container">
+        <a href="#" class="header__logo">
+          <img src="./img/weatherbro_logo.svg" alt="" />
+        </a>
+        <div class="header__search-view">
+          <input
+            type="search"
+            class="search-view--input"
+            placeholder="Suche Stadt"
+          />
+        </div>
+        <button class="header--current-location-button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- 
+      Now - Section
+     -->
+
+    <section id="nowSection">
+      <div class="nowSection__container">
+        <div class="nowSection__title">19°C</div>
+        <div class="nowSection__sky-informations">Clear Sky</div>
+        <hr />
+        <div class="nowSection__date-container">
+          <i class="fa-regular fa-calendar-days"></i>
+          <span class="date-container__date">Mittwoch, 13.12.2023</span>
+        </div>
+        <div class="nowSection__location-container">
+          <i class="fa-regular fa-calendar-days"></i>
+          <span class="location-container__location">Schwerin, DE</span>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
