@@ -1,15 +1,24 @@
 .header__container {
   position: relative;
 
-  .header__image img {
+  .header__image {
     width: 100%;
-    z-index: -1;
+    padding-bottom: 67%;
+
+    background-image: url("./../img/night-moon.svg");
+    background-size: cover;
   }
+
   .header__location-info {
-    font-size: 1.1rem;
     position: absolute;
     left: 1rem;
     top: 1rem;
+  }
+  .header__location-city {
+    font-size: 7vw;
+  }
+  .header__location-time {
+    font-size: 3.5vw;
   }
 
   .header__search-bar {

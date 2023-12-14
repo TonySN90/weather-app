@@ -1,15 +1,14 @@
-.hourly-forecast__title {
-  margin-bottom: 0.5rem;
+.block--alignment {
+  display: flex;
+  justify-content: center;
+}
+
+.block__container {
+  width: 100%;
+  margin: 0 1rem 1.5rem 1rem;
 }
 
 .forecast__list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-
-  max-width: 50rem;
-  margin: 0 1rem 1.5rem 1rem;
   border-radius: $textblock-border-radius;
   background-color: $color-textblock-bg-blur;
 
@@ -19,10 +18,10 @@
     align-items: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.7rem;
 
     .forecast__time {
-      width: 7rem;
+      width: 6rem;
     }
 
     .forecast__icon {

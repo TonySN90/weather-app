@@ -1,0 +1,28 @@
+@media only screen and (min-width: 1000px) {
+  .header__container {
+    .header__image {
+      width: 100%;
+      padding-bottom: 48%;
+
+      background-image: url("./../img/header_1200x580.svg");
+      background-size: cover;
+    }
+  }
+
+  .now-section__container {
+    width: 45%;
+  }
+
+  .block__container {
+    width: 60%;
+  }
+
+  .header__container {
+    .header__location-city {
+      font-size: 3rem;
+    }
+    .header__location-time {
+      font-size: 1.5rem;
+    }
+  }
+}
