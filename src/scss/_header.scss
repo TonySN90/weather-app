@@ -5,14 +5,14 @@
     width: 100%;
     padding-bottom: 67%;
 
-    background-image: url("./../img/night-moon.svg");
+    background-image: url("./../img/header.svg");
     background-size: cover;
   }
 
   .header__location-info {
     position: absolute;
     left: 1rem;
-    top: 1rem;
+    top: 0.5rem;
   }
   .header__location-city {
     font-size: 7vw;
@@ -38,11 +38,12 @@
       border-radius: 1rem;
       background-color: transparent;
       color: $color-font-primary;
-      opacity: 0;
+      // opacity: 0;
+      transition: all 0.3s;
     }
   }
 
-  .header__container-current-location-button {
+  .current-location__button {
     background-color: transparent;
     border: none;
   }

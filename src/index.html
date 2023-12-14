@@ -22,10 +22,7 @@
      -->
     <header class="header">
       <div class="header__container">
-        <div class="header__image">
-          <!-- <img src="./img/night-moon.svg" /> -->
-          <!-- <div class="header--img"></div> -->
-        </div>
+        <div class="header__image"></div>
         <div class="header__location-info">
           <div class="header__location-city">Schwerin</div>
           <div class="header__location-time">Mittwoch 11:37</div>
@@ -37,9 +34,7 @@
             class="search-view--input"
             placeholder="Suche Stadt"
           />
-          <button
-            class="header__container-current-location-button button--secondary"
-          >
+          <button class="current-location__button">
             <i class="fa-solid fa-magnifying-glass icon--middle"></i>
           </button>
         </div>
@@ -90,190 +85,238 @@
           Stundenvorhersage
         </div>
         <ul class="hourly-forecast__list forecast__list">
-          <div class="hourly-forecast__list-card forecast__list-card">
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">3 Uhr</div>
-            <img
-              src="./img/icon_fullsun.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">6 Uhr</div>
-            <img
-              src="./img/icon_sun-clouds-snow.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">9 Uhr</div>
-            <img
-              src="./img/icon_sun-clouds-snow.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">12 Uhr</div>
-            <img
-              src="./img/icon_sun_clouds-rain.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">15 Uhr</div>
-            <img
-              src="./img/icon_fullsun.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">18 Uhr</div>
-            <img
-              src="./img/icon_fullsun.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">21 Uhr</div>
-            <img
-              src="./img/icon_sun_clouds-rain.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
-          <div class="hourly-forecast__list-card forecast__list-card">
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">0 Uhr</div>
-            <img
-              src="./img/icon_fullmoon.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
-          </div>
+          </li>
         </ul>
       </div>
     </section>
@@ -322,117 +365,176 @@
         <ul class="hourly-forecast__list forecast__list">
           <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">Morgen</div>
-            <img
-              src="./img/icon_fullsun.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
           </li>
           <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">Dienstag</div>
-            <img
-              src="./img/icon_sun-with-clouds.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
           </li>
           <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">Mittwoch</div>
-            <img
-              src="./img/icon_sun-with-clouds.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
           </li>
           <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">Donnerstag</div>
-            <img
-              src="./img/icon_fullsun.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
           </li>
           <li class="hourly-forecast__list-card forecast__list-card">
             <div class="hourly-forecast__time forecast__time">Freitag</div>
-            <img
-              src="./img/icon_sun_clouds-rain.svg"
-              alt=""
-              class="hourly-forecast__icon forecast__icon"
-            />
-            <div class="hourly-forecast__temperature forecast__temperature">
-              15°C
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
             </div>
-            <i class="fa-solid fa-wind icon"></i>
-            <div
-              class="hourly-forecast__windinformationens forecast__windinformationens"
-            >
-              10 km/h
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
             </div>
-            <i class="fa-solid fa-umbrella icon"></i>
-            <div
-              class="hourly-forecast__rain-probability forecast__rain-probability"
-            >
-              60%
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
+            </div>
+          </li>
+          <li class="hourly-forecast__list-card forecast__list-card">
+            <div class="hourly-forecast__time forecast__time">Morgen</div>
+            <div class="informations__container">
+              <img
+                src="./img/icon_fullsun.svg"
+                alt=""
+                class="hourly-forecast__icon forecast__icon"
+              />
+              <div class="hourly-forecast__temperature forecast__temperature">
+                15°C
+              </div>
+            </div>
+            <div class="informations__container">
+              <i class="fa-solid fa-wind icon"></i>
+              <div
+                class="hourly-forecast__windinformationens forecast__windinformationens"
+              >
+                10 km/h
+              </div>
+            </div>
+            <div class="informations__container">
+              <i class="fa-solid fa-umbrella icon"></i>
+              <div
+                class="hourly-forecast__rain-probability forecast__rain-probability"
+              >
+                60%
+              </div>
             </div>
           </li>
         </ul>

@@ -2,6 +2,11 @@ body {
   background-color: #00172d;
   color: $color-font-primary;
   font-family: $font-family-primary;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-around;
+  // flex-wrap: wrap;
+  // gap: 10rem;
 }
 
 * {

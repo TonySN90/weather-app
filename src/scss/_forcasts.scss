@@ -8,20 +8,27 @@
   margin: 0 1rem 1.5rem 1rem;
 }
 
+.informations__container {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .forecast__list {
   border-radius: $textblock-border-radius;
   background-color: $color-textblock-bg-blur;
 
   .forecast__list-card {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
     padding: 0.7rem;
 
     .forecast__time {
-      width: 6rem;
+      min-width: 5.4rem;
+      overflow-wrap: break-word;
     }
 
     .forecast__icon {
