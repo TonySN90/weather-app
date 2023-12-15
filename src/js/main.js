@@ -5,9 +5,17 @@ import "./../scss/main.scss";
 const searchBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down-menu__container");
 const dropDownList = document.querySelector(".drop-down__li");
+const locationName = document.querySelector(".header__location-city");
+const locationNTime = document.querySelector(".header__location-time");
+const now_temperature = document.querySelector(".now-section__temperature");
+const now_feelsLike = document.querySelector(".now-section__feelsLike");
+const now_rain = document.querySelector(".now-section__rain-probability");
+const now_humidity = document.querySelector(".humidity__value");
+const now_wind = document.querySelector(".wind-informations__value");
 
 const state = {
   query: "",
+  currentLocation: "",
   locationsList: [],
 };
 
@@ -18,7 +26,7 @@ const API_KEY = "3f7d15f8a87ecf63772b7fcd776a2c91";
 
 const URL = {
   currentWeather(lat, lon) {
-    return `https://api.openweathermap.org/data/2.5/weather?${lat}&${lon}&units=metric`;
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric`;
   },
   forecast(lat, lon) {
     return `https://api.openweathermap.org/data/2.5/forecast?${lat}&${lon}&units=metric`;
@@ -60,10 +68,36 @@ function showHtmlList() {
   dropDownEl.style.display = "block";
   dropDownEl.style.opacity = "1";
 }
+function closeHtmlList() {
+  dropDownEl.style.display = "none";
+  dropDownEl.style.opacity = "0";
+}
+
+function updateDOM() {
+  console.log(state);
+
+  // HEADER
+  locationName.innerHTML = state.currentWeather.name;
+
+  // NOW SECTION
+  now_temperature.innerHTML = `${Math.round(state.currentWeather.main.temp)}°C`;
+  now_feelsLike.innerHTML = `Gefühlt wie ${Math.round(
+    state.currentWeather.main.feels_like
+  )}°C`;
+  // now_rain.innerHTML = `${}`;
+  now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
+  now_wind.innerHTML = `${Math.round(
+    state.currentWeather.wind.speed * 3.6
+  )}kmh/h`;
+}
+
+// Eventlistener
 
 searchBtn.addEventListener("click", async () => {
   const inputFieldValue = document.querySelector(".search-view--input");
   state.query = inputFieldValue.value;
+
+  // GEOCODING
   state.locationsList = await fetchData(URL.geocoding(state.query));
 
   createHtmlList(location);
@@ -75,13 +109,19 @@ searchBtn.addEventListener("click", async () => {
     const el = e.target;
     if (!el) return;
 
+    console.log(el);
     const lat = el.dataset.lat;
     const lon = el.dataset.lon;
-    console.log(lat, lon);
 
+    closeHtmlList();
+
+    // CURRENT WEATHER
     state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
-    state.forecast = await fetchData(URL.forecast(lat, lon));
-    state.airPollution = await fetchData(URL.airPollution(lat, lon));
+
+    updateDOM();
+
+    // state.forecast = await fetchData(URL.forecast(lat, lon));
+    // state.airPollution = await fetchData(URL.airPollution(lat, lon));
   });
 });
 
