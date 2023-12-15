@@ -5,6 +5,7 @@ import "./../scss/main.scss";
 const searchBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down-menu__container");
 const dropDownList = document.querySelector(".drop-down__li");
+
 const locationName = document.querySelector(".header__location-city");
 const locationNTime = document.querySelector(".header__location-time");
 const now_temperature = document.querySelector(".now-section__temperature");
@@ -78,13 +79,19 @@ function updateDOM() {
 
   // HEADER
   locationName.innerHTML = state.currentWeather.name;
+  locationNTime.innerHTML = getDate(
+    state.currentWeather.dt,
+    state.currentWeather.timezone
+  );
 
   // NOW SECTION
   now_temperature.innerHTML = `${Math.round(state.currentWeather.main.temp)}°C`;
   now_feelsLike.innerHTML = `Gefühlt wie ${Math.round(
     state.currentWeather.main.feels_like
   )}°C`;
-  // now_rain.innerHTML = `${}`;
+  now_rain.innerHTML = `${
+    state.currentWeather.main.rain ? state.currentWeather.main.rain : "0"
+  }%`;
   now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
@@ -117,54 +124,47 @@ searchBtn.addEventListener("click", async () => {
 
     // CURRENT WEATHER
     state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
-
     updateDOM();
+    dropDownList.innerHTML = "";
 
     // state.forecast = await fetchData(URL.forecast(lat, lon));
     // state.airPollution = await fetchData(URL.airPollution(lat, lon));
   });
 });
 
-// const weekdayNames = [
-//   "Sonntag",
-//   "Montag",
-//   "Dienstag",
-//   "Mittwoch",
-//   "Donnerstag",
-//   "Freitag",
-//   "Samstag",
-// ];
+const weekdayNames = [
+  "Sonntag",
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+];
 
-// const monthNames = [
-//   "Jan",
-//   "Feb",
-//   "Mär",
-//   "Apr",
-//   "Mai",
-//   "Jun",
-//   "Jul",
-//   "Aug",
-//   "Sep",
-//   "Okt",
-//   "Nov",
-//   "Dez",
-// ];
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mär",
+  "Apr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Okt",
+  "Nov",
+  "Dez",
+];
 
-// function getDate(dateUnix, timezone) {
-//   const date = new Date((dateUnix + timezone) * 1000);
-//   const weekdayName = weekdayNames[date.getUTCDay()];
-//   const monthName = monthNames[date.getUTCMonth()];
-//   return `${weekdayName} ${date.getUTCDate()}, ${monthName}`;
-// }
-
-// function getTime(timeUnix, timezone) {
-//   const date = new Date((timeUnix + timezone) * 1000);
-//   const hours = date.getUTCHours();
-//   const minutes = date.getUTCMinutes();
-//   const period = hours >= 12 ? "PM" : "AM";
-
-//   return `${hours % 12 || 12}: ${minutes} ${period}`;
-// }
+function getDate(dateUnix, timezone) {
+  const date = new Date((dateUnix + timezone) * 1000);
+  const weekdayName = weekdayNames[date.getUTCDay()];
+  const monthName = monthNames[date.getUTCMonth()];
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  return `${weekdayName} ${date.getUTCDate()}. ${monthName} ${hours}:${minutes} Uhr`;
+}
 
 // function mpsToKmh(mps) {
 //   const mph = mps * 1000;
