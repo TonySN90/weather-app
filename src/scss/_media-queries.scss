@@ -1,4 +1,13 @@
-@media only screen and (min-width: 750px) {
+@media only screen and (min-width: 670px) {
+  .weatherdata__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    width: 100%;
+    // margin-inline: auto;
+  }
+
   .header__container {
     .header__image {
       width: 100%;
@@ -10,11 +19,18 @@
   }
 
   .now-section__container {
-    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  section {
+    width: 50%;
   }
 
   .block__container {
-    width: 60%;
+    width: 100%;
   }
 
   .header__container {
@@ -24,5 +40,16 @@
     .header__location-time {
       font-size: 1.5rem;
     }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .weatherdata__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    width: 75%;
+    margin-inline: auto;
   }
 }
