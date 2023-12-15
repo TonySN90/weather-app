@@ -1,13 +1,15 @@
 .drop-down-menu__container {
+  display: none;
   position: fixed;
   width: 100%;
   top: 0;
-  opacity: 1;
+  opacity: 0;
 }
 
 .drop-down__li {
   margin: 1rem;
   border-radius: $textblock-border-radius;
+  border: 1px solid $color-font-primary;
   list-style: none;
   background-color: $color-dropdown;
   backdrop-filter: blur(25px);
