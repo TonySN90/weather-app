@@ -1,0 +1,24 @@
+.drop-down-menu__container {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  opacity: 1;
+}
+
+.drop-down__li {
+  margin: 1rem;
+  border-radius: $textblock-border-radius;
+  list-style: none;
+  background-color: $color-dropdown;
+  backdrop-filter: blur(25px);
+  cursor: pointer;
+}
+
+.drop-down__list-entry {
+  padding: 1rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-dropdown-hover;
+  }
+}
