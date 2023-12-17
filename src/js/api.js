@@ -21,13 +21,17 @@ export const URL = {
 export async function fetchData(url) {
   try {
     const response = await fetch(`${url}&appid=${API_KEY}`);
-    if (!response.ok) return;
+    if (!response.ok) {
+      throw new Error(
+        `Network response was not ok, status: ${response.status}`
+      );
+    }
 
     const result = await response.json();
 
-    if (result.length === 0) return false;
-    else return result;
+    if (result.length === 0) throw new Error("Ungültiger Eintrag!");
+    return result;
   } catch (error) {
-    console.error(`Error: ${error}`);
+    throw error;
   }
 }

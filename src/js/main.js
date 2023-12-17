@@ -7,6 +7,7 @@ import { getDate } from "./utils";
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__li");
+const inputFieldValue = document.querySelector(".drop-down-menu__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
 
@@ -22,6 +23,8 @@ const now_sky = document.querySelector(".sky-informations-image");
 const now_description = document.querySelector(
   ".now-section__weather-description"
 );
+
+const hourlyForcastEl = document.querySelector(".hourly-forecast__list");
 
 const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
@@ -47,11 +50,20 @@ function displayDropDownMEnu() {
   dropDownEl.style.top = "0";
 }
 function closeDropDownMenu() {
-  dropDownEl.style.top = "-10rem";
+  dropDownEl.style.top = "-30rem";
 }
 
 function clearDropDownList() {
   dropDownList.innerHTML = "";
+}
+
+function displayErrorMessage(message) {
+  inputFieldValue.value = message;
+  inputFieldValue.style.color = "red";
+  setTimeout(() => {
+    inputFieldValue.style.color = "#ffffffc1";
+    inputFieldValue.value = "";
+  }, 2000);
 }
 
 function updateDOM() {
@@ -82,50 +94,68 @@ function updateDOM() {
   sunsetEl.innerHTML = `${state.currentWeather.sys.sunset} Uhr`;
 }
 
+function createForcastListentry() {
+  const html = `
+  <li class="hourly-forecast__list-card forecast__list-card">
+    <div class="forecast__time">3 Uhr</div>
+    <div class="informations__container">
+      <img src="./img/icon_fullsun.svg" alt="" class="forecast__icon" />
+      <div class="forecast__temperature">15°C</div>
+    </div>
+    <div class="informations__container">
+      <i class="fa-solid fa-wind icon"></i>
+      <div class="forecast__windinformationens">10 km/h</div>
+    </div>
+    <div class="informations__container">
+      <i class="fa-solid fa-umbrella icon"></i>
+      <div class="forecast__rain-probability">60%</div>
+    </div>
+  </li>`;
+}
+
 // Eventlistener
 
 displayDropDownBtn.addEventListener("click", displayDropDownMEnu);
-closeDropDownBtn.addEventListener("click", closeDropDownMenu);
-
-dropDownSearchBtn.addEventListener("click", async () => {
-  const inputFieldValue = document.querySelector(
-    ".drop-down-menu__searchfield"
-  );
-  state.query = inputFieldValue.value;
-
-  // GEOCODING
-  const geoData = await fetchData(URL.geocoding(state.query));
-  if (geoData) state.locationsList = geoData;
-  else {
-    state.message = "Eingabe ungültig!";
-    console.log(state.message);
-  }
-
-  createHtmlListEntries(location);
-  inputFieldValue.value = "";
-
-  dropDownList.addEventListener("click", async (e) => {
-    const el = e.target;
-    if (!el) return;
-
-    const lat = el.dataset.lat;
-    const lon = el.dataset.lon;
-
-    // CURRENT WEATHER
-    // const weatherData = await fetchData(URL.currentWeather(lat, lon));
-    state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
-
-    updateDOM();
-    closeDropDownMenu();
+closeDropDownBtn.addEventListener("click", () => {
+  closeDropDownMenu();
+  setTimeout(() => {
     clearDropDownList();
-    console.log(state);
-
-    // state.forecast = await fetchData(URL.forecast(lat, lon));
-    // state.airPollution = await fetchData(URL.airPollution(lat, lon));
-  });
+  }, 500);
 });
 
-// function mpsToKmh(mps) {
-//   const mph = mps * 1000;
-//   return mph / 1000;
-// }
+dropDownSearchBtn.addEventListener("click", async () => {
+  clearDropDownList();
+  try {
+    const inputFieldValue = document.querySelector(
+      ".drop-down-menu__searchfield"
+    );
+    state.query = inputFieldValue.value;
+
+    // GEOCODING
+    state.locationsList = await fetchData(URL.geocoding(state.query));
+    createHtmlListEntries(location);
+    inputFieldValue.value = "";
+
+    dropDownList.addEventListener("click", async (e) => {
+      const el = e.target;
+      if (!el) return;
+
+      const lat = el.dataset.lat;
+      const lon = el.dataset.lon;
+
+      // CURRENT WEATHER
+      state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
+
+      updateDOM();
+      closeDropDownMenu();
+      clearDropDownList();
+      console.log(state);
+
+      // state.forecast = await fetchData(URL.forecast(lat, lon));
+      // state.airPollution = await fetchData(URL.airPollution(lat, lon));
+    });
+  } catch (error) {
+    displayErrorMessage("Keinen Ort gefunden!");
+    console.log(`Errormeldung: ${error}`);
+  }
+});
