@@ -10,7 +10,6 @@ const dropDownList = document.querySelector(".drop-down__li");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
 
-
 const locationName = document.querySelector(".header__location-city");
 const locationNTime = document.querySelector(".header__location-time");
 const now_temperature = document.querySelector(".now-section__temperature");
@@ -18,6 +17,7 @@ const now_feelsLike = document.querySelector(".now-section__feelsLike");
 const now_rain = document.querySelector(".now-section__rain-probability");
 const now_humidity = document.querySelector(".humidity__value");
 const now_wind = document.querySelector(".wind-informations__value");
+const now_sky = document.querySelector(".sky-informations-image");
 
 const state = {
   query: "",
@@ -64,6 +64,7 @@ function updateDOM() {
     state.currentWeather.main.rain ? state.currentWeather.main.rain : "0"
   }%`;
   now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
+  now_sky.src = `./img/weather-icons-125x125/${state.currentWeather.weather[0].icon}.png`;
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
   )}kmh/h`;
@@ -72,18 +73,21 @@ function updateDOM() {
 // Eventlistener
 
 displayDropDownBtn.addEventListener("click", displayDropDownMEnu);
-closeDropDownBtn.addEventListener('click', closeDropDownMenu);
+closeDropDownBtn.addEventListener("click", closeDropDownMenu);
 
-dropDownSearchBtn.addEventListener('click', async () => {
-  const inputFieldValue = document.querySelector(".drop-down-menu__searchfield");
+dropDownSearchBtn.addEventListener("click", async () => {
+  const inputFieldValue = document.querySelector(
+    ".drop-down-menu__searchfield"
+  );
   state.query = inputFieldValue.value;
 
   // GEOCODING
   const geoData = await fetchData(URL.geocoding(state.query));
-  console.log(geoData);
-  if(geoData) state.locationsList = geoData;
-  else { state.message = 'Eingabe ungültig!';
-    console.log(state.message)};
+  if (geoData) state.locationsList = geoData;
+  else {
+    state.message = "Eingabe ungültig!";
+    console.log(state.message);
+  }
 
   createHtmlListEntries(location);
   inputFieldValue.value = "";
@@ -102,13 +106,12 @@ dropDownSearchBtn.addEventListener('click', async () => {
     updateDOM();
     closeDropDownMenu();
     clearDropDownList();
+    console.log(state);
 
     // state.forecast = await fetchData(URL.forecast(lat, lon));
     // state.airPollution = await fetchData(URL.airPollution(lat, lon));
   });
-})
-
-
+});
 
 // function mpsToKmh(mps) {
 //   const mph = mps * 1000;

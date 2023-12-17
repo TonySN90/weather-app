@@ -6,7 +6,7 @@
 
   background-color: #ffffff39;
   backdrop-filter: blur(15px);
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .drop-down-menu__container {
@@ -15,9 +15,8 @@
   .search__container {
     display: flex;
     align-items: center;
-    gap: .3rem;
-    margin-bottom: .3rem;
-
+    gap: 0.3rem;
+    margin-bottom: 0.3rem;
   }
 
   input {
@@ -46,7 +45,6 @@
     color: $color-font-primary;
     cursor: pointer;
   }
-
 }
 
 .drop-down__li {
