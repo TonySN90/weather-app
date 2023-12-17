@@ -30,11 +30,11 @@
         </div>
 
         <div class="header__search-bar">
-          <input
+          <!-- <input
             type="search"
             class="search-view--input"
             placeholder="Suche Stadt"
-          />
+          /> -->
           <button class="current-location__button">
             <i class="fa-solid fa-magnifying-glass icon--middle"></i>
           </button>
@@ -545,11 +545,21 @@
       <!-- 
       DROP-DOWN__MENU
       -->
-
-      <div class="drop-down-menu__container">
-        <ul class="drop-down__li">
-          <!-- <li class="drop-down__list-entry">Schwerin</li> -->
-        </ul>
+      <div class="drop-down">
+        <div class="drop-down-menu__container">
+          <div class="search__container">
+            <input type="text" name="searchfield" class="drop-down-menu__searchfield" placeholder="Welchen Ort suchst du?">
+            <div class="drop-down__search_button">
+              <i class="fa-solid fa-magnifying-glass icon--middle"></i>
+            </div>
+          </div>
+          <ul class="drop-down__li">
+            <!-- <li class="drop-down__list-entry">Schwerin</li> -->
+          </ul>
+          <div class="drop-down__close-button">
+            <i class="fa-solid fa-angle-up icon--middle"></i>
+          </div>
+        </div>
       </div>
     </div>
   </body>

@@ -1,10 +1,15 @@
 "use strict";
 
 import "./../scss/main.scss";
+import { fetchData, URL } from "./api";
+import { getDate } from "./utils";
 
-const searchBtn = document.querySelector(".current-location__button");
-const dropDownEl = document.querySelector(".drop-down-menu__container");
+const displayDropDownBtn = document.querySelector(".current-location__button");
+const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__li");
+const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
+const closeDropDownBtn = document.querySelector(".drop-down__close-button");
+
 
 const locationName = document.querySelector(".header__location-city");
 const locationNTime = document.querySelector(".header__location-time");
@@ -20,41 +25,7 @@ const state = {
   locationsList: [],
 };
 
-const API_KEY = "3f7d15f8a87ecf63772b7fcd776a2c91";
-// const defaultLocation = `#/weather?lat=53.62937&lon=11.41316`;
-
-// API ---------------------
-
-const URL = {
-  currentWeather(lat, lon) {
-    return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric`;
-  },
-  forecast(lat, lon) {
-    return `https://api.openweathermap.org/data/2.5/forecast?${lat}&${lon}&units=metric`;
-  },
-  airPollution(lat, lon) {
-    return `http://api.openweathermap.org/data/2.5/air_pollution?${lat}&${lon}`;
-  },
-  reverseGeocoding(lat, lon) {
-    return `http://api.openweathermap.org/geo/1.0/reverse?${lat}&${lon}&limit=5`;
-  },
-  geocoding(query) {
-    return `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`;
-  },
-};
-
-async function fetchData(url) {
-  try {
-    const response = await fetch(`${url}&appid=${API_KEY}`);
-    const result = await response.json();
-
-    return result;
-  } catch (error) {
-    console.error(`Error: ${error}`);
-  }
-}
-
-function createHtmlList() {
+function createHtmlListEntries() {
   state.locationsList.forEach((location) => {
     const listEntry = `<li class="drop-down__list-entry" data-lat="${
       location.lat
@@ -65,18 +36,18 @@ function createHtmlList() {
   });
 }
 
-function showHtmlList() {
-  dropDownEl.style.display = "block";
-  dropDownEl.style.opacity = "1";
+function displayDropDownMEnu() {
+  dropDownEl.style.top = "0";
 }
-function closeHtmlList() {
-  dropDownEl.style.display = "none";
-  dropDownEl.style.opacity = "0";
+function closeDropDownMenu() {
+  dropDownEl.style.top = "-10rem";
+}
+
+function clearDropDownList() {
+  dropDownList.innerHTML = "";
 }
 
 function updateDOM() {
-  console.log(state);
-
   // HEADER
   locationName.innerHTML = state.currentWeather.name;
   locationNTime.innerHTML = getDate(
@@ -100,71 +71,44 @@ function updateDOM() {
 
 // Eventlistener
 
-searchBtn.addEventListener("click", async () => {
-  const inputFieldValue = document.querySelector(".search-view--input");
+displayDropDownBtn.addEventListener("click", displayDropDownMEnu);
+closeDropDownBtn.addEventListener('click', closeDropDownMenu);
+
+dropDownSearchBtn.addEventListener('click', async () => {
+  const inputFieldValue = document.querySelector(".drop-down-menu__searchfield");
   state.query = inputFieldValue.value;
 
   // GEOCODING
-  state.locationsList = await fetchData(URL.geocoding(state.query));
+  const geoData = await fetchData(URL.geocoding(state.query));
+  console.log(geoData);
+  if(geoData) state.locationsList = geoData;
+  else { state.message = 'Eingabe ungültig!';
+    console.log(state.message)};
 
-  createHtmlList(location);
-  showHtmlList();
-
+  createHtmlListEntries(location);
   inputFieldValue.value = "";
 
   dropDownList.addEventListener("click", async (e) => {
     const el = e.target;
     if (!el) return;
 
-    console.log(el);
     const lat = el.dataset.lat;
     const lon = el.dataset.lon;
 
-    closeHtmlList();
-
     // CURRENT WEATHER
+    // const weatherData = await fetchData(URL.currentWeather(lat, lon));
     state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
+
     updateDOM();
-    dropDownList.innerHTML = "";
+    closeDropDownMenu();
+    clearDropDownList();
 
     // state.forecast = await fetchData(URL.forecast(lat, lon));
     // state.airPollution = await fetchData(URL.airPollution(lat, lon));
   });
-});
+})
 
-const weekdayNames = [
-  "Sonntag",
-  "Montag",
-  "Dienstag",
-  "Mittwoch",
-  "Donnerstag",
-  "Freitag",
-  "Samstag",
-];
 
-const monthNames = [
-  "Jan",
-  "Feb",
-  "Mär",
-  "Apr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Okt",
-  "Nov",
-  "Dez",
-];
-
-function getDate(dateUnix, timezone) {
-  const date = new Date((dateUnix + timezone) * 1000);
-  const weekdayName = weekdayNames[date.getUTCDay()];
-  const monthName = monthNames[date.getUTCMonth()];
-  const hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-  return `${weekdayName} ${date.getUTCDate()}. ${monthName} ${hours}:${minutes} Uhr`;
-}
 
 // function mpsToKmh(mps) {
 //   const mph = mps * 1000;
