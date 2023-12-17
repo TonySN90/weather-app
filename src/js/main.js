@@ -2,7 +2,7 @@
 
 import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
-import { getDate } from "./utils";
+import { getDate, getTime } from "./utils";
 
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
@@ -12,7 +12,7 @@ const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
 
 const locationName = document.querySelector(".header__location-city");
-const locationNTime = document.querySelector(".header__location-time");
+const locationTime = document.querySelector(".header__location-time");
 
 const now_temperature = document.querySelector(".now-section__temperature");
 const now_feelsLike = document.querySelector(".now-section__feelsLike");
@@ -69,7 +69,7 @@ function displayErrorMessage(message) {
 function updateDOM() {
   // HEADER
   locationName.innerHTML = state.currentWeather.name;
-  locationNTime.innerHTML = getDate(
+  locationTime.innerHTML = getDate(
     state.currentWeather.dt,
     state.currentWeather.timezone
   );
@@ -90,8 +90,16 @@ function updateDOM() {
   )}kmh/h`;
 
   // SUNRISE-/SET
-  sunriseEl.innerHTML = `${state.currentWeather.sys.sunrise} Uhr`;
-  sunsetEl.innerHTML = `${state.currentWeather.sys.sunset} Uhr`;
+  // sunriseEl.innerHTML = `${state.currentWeather.sys.sunrise} Uhr`;
+  // sunsetEl.innerHTML = `${state.currentWeather.sys.sunset} Uhr`;
+  sunriseEl.innerHTML = `${getTime(
+    state.currentWeather.sys.sunrise,
+    state.currentWeather.timezone
+  )} Uhr`;
+  sunsetEl.innerHTML = `${getTime(
+    state.currentWeather.sys.sunset,
+    state.currentWeather.timezone
+  )} Uhr`;
 }
 
 function createForcastListentry() {
