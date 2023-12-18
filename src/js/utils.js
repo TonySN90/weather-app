@@ -23,13 +23,24 @@ const monthNames = [
   "Dez",
 ];
 
-export function getDate(dateUnix, timezone) {
-  const date = new Date((dateUnix + timezone) * 1000);
+export function getDate(dateUnix, timezone, isFirstTime) {
+  let date = "";
+  if (timezone) {
+    date = new Date(dateUnix + timezone * 1000);
+  } else {
+    date = new Date(dateUnix * 1000);
+  }
+
   const weekdayName = weekdayNames[date.getUTCDay()];
   const monthName = monthNames[date.getUTCMonth()];
   const hours = date.getUTCHours().toString().padStart(2, "0");
   const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-  return `${weekdayName} ${date.getUTCDate()}. ${monthName} ${hours}:${minutes} Uhr`;
+
+  if (timezone) {
+    return `${weekdayName} ${date.getUTCDate()}. ${monthName} ${hours}:${minutes} Uhr`;
+  } else {
+    return `${weekdayName}`;
+  }
 }
 
 export function getTime(dateUnix, mez) {
@@ -43,5 +54,6 @@ export function getTime(dateUnix, mez) {
   const formattedTime = new Intl.DateTimeFormat("default", options).format(
     date
   );
+
   return mez ? formattedTime : timeString;
 }

@@ -25,6 +25,7 @@ const now_description = document.querySelector(
 );
 
 const hourlyForcastEl = document.querySelector(".hourly-forecast__list");
+const fiveDaysForcastEl = document.querySelector(".five-days-forecast__list");
 
 const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
@@ -68,10 +69,13 @@ function displayErrorMessage(message) {
   }, 2000);
 }
 
-function createForcastListentry(forecast) {
+function createForcastListentry(forecast, date = true) {
+  console.log(getDate(forecast.dt));
   return `
-  <li class="hourly-forecast__list-card forecast__list-card">
-    <div class="forecast__time">${getTime(forecast.dt, false)}</div>
+  <li class="forecast__list-card">
+    <div class="forecast__time">${
+      date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
+    }</div>
     <div class="informations__container">
       <img src="./img/weather-icons-125x125/${
         forecast.weather[0].icon
@@ -91,6 +95,31 @@ function createForcastListentry(forecast) {
       <div class="forecast__rain-probability">60%</div>
     </div>
   </li>`;
+}
+
+function filterMaxTemperatureDay() {
+  const maxTempByDay = {};
+
+  // Durchlaufe das Wetterdaten-Array
+  state.forecast.list.forEach((entry) => {
+    const date = entry.dt_txt.split(" ")[0]; // Extrahiere das Datum
+    const temp = entry.main.temp; // Hole die Temperatur
+
+    // Überprüfe, ob es bereits einen Eintrag für diesen Tag gibt
+    if (!maxTempByDay[date] || temp > maxTempByDay[date].maxTemp) {
+      maxTempByDay[date] = {
+        maxTemp: temp,
+        weatherEntry: entry,
+      };
+    }
+  });
+
+  // Extrahiere die Wettereinträge der Tage mit maximaler Temperatur
+  const maxTempDays = Object.values(maxTempByDay).map(
+    (day) => day.weatherEntry
+  );
+
+  return maxTempDays;
 }
 
 function updateDOM() {
@@ -121,9 +150,17 @@ function updateDOM() {
   forcast24Hours.forEach((el) => {
     const listEntry = createForcastListentry(el);
     hourlyForcastEl.insertAdjacentHTML("beforeend", listEntry);
-
-    console.log(el);
   });
+
+  // 5-DAY FORCAST
+  const maxTempDays = filterMaxTemperatureDay();
+  maxTempDays.forEach((el) => {
+    const listEntry = createForcastListentry(el, false);
+    fiveDaysForcastEl.insertAdjacentHTML("beforeend", listEntry);
+  });
+  document
+    .querySelector(".five-days-forecast__list")
+    .firstElementChild.querySelector(".forecast__time").innerHTML = "Morgen";
 
   // SUNRISE-/SET
   sunriseEl.innerHTML = `${getTime(
