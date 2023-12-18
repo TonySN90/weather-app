@@ -52,15 +52,15 @@
   list-style: none;
   background-color: $color-primary;
   cursor: pointer;
-
-  &:hover {
-    background-color: $color-dropdown-hover;
-  }
 }
 
 .drop-down__list-entry {
   padding: 1rem;
   transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-dropdown-hover;
+  }
 }
 
 .drop-down__close-button {

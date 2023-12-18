@@ -5,13 +5,13 @@ export const URL = {
     return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=de&units=metric`;
   },
   forecast(lat, lon) {
-    return `https://api.openweathermap.org/data/2.5/forecast?${lat}&${lon}&lang=de&units=metric`;
+    return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=de&units=metric`;
   },
   airPollution(lat, lon) {
-    return `http://api.openweathermap.org/data/2.5/air_pollution?${lat}&${lon}&lang=de`;
+    return `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&${lon}&lang=de`;
   },
   reverseGeocoding(lat, lon) {
-    return `https://api.openweathermap.org/geo/1.0/reverse?${lat}&${lon}&limit=5`;
+    return `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&${lon}&limit=5`;
   },
   geocoding(query) {
     return `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`;

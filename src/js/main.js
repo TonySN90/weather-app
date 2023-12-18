@@ -32,6 +32,8 @@ const sunsetEl = document.querySelector(".sunset__time");
 const state = {
   query: "",
   currentLocation: "",
+  currentWeather: [],
+  forecast: [],
   locationsList: [],
 };
 
@@ -66,6 +68,31 @@ function displayErrorMessage(message) {
   }, 2000);
 }
 
+function createForcastListentry(forecast) {
+  return `
+  <li class="hourly-forecast__list-card forecast__list-card">
+    <div class="forecast__time">${getTime(forecast.dt, false)}</div>
+    <div class="informations__container">
+      <img src="./img/weather-icons-125x125/${
+        forecast.weather[0].icon
+      }.png" alt="weather Icon" class="forecast__icon" />
+      <div class="forecast__temperature">${Math.round(
+        forecast.main.temp
+      )}°C</div>
+    </div>
+    <div class="informations__container">
+      <i class="fa-solid fa-wind icon"></i>
+      <div class="forecast__windinformationens">${Math.round(
+        forecast.wind.speed * 3.6
+      )}kmh/h</div>
+    </div>
+    <div class="informations__container">
+      <i class="fa-solid fa-umbrella icon"></i>
+      <div class="forecast__rain-probability">60%</div>
+    </div>
+  </li>`;
+}
+
 function updateDOM() {
   // HEADER
   locationName.innerHTML = state.currentWeather.name;
@@ -89,9 +116,16 @@ function updateDOM() {
     state.currentWeather.wind.speed * 3.6
   )}kmh/h`;
 
+  // HOURLY FORCAST
+  const forcast24Hours = state.forecast.list.slice(0, 8);
+  forcast24Hours.forEach((el) => {
+    const listEntry = createForcastListentry(el);
+    hourlyForcastEl.insertAdjacentHTML("beforeend", listEntry);
+
+    console.log(el);
+  });
+
   // SUNRISE-/SET
-  // sunriseEl.innerHTML = `${state.currentWeather.sys.sunrise} Uhr`;
-  // sunsetEl.innerHTML = `${state.currentWeather.sys.sunset} Uhr`;
   sunriseEl.innerHTML = `${getTime(
     state.currentWeather.sys.sunrise,
     state.currentWeather.timezone
@@ -100,25 +134,6 @@ function updateDOM() {
     state.currentWeather.sys.sunset,
     state.currentWeather.timezone
   )} Uhr`;
-}
-
-function createForcastListentry() {
-  const html = `
-  <li class="hourly-forecast__list-card forecast__list-card">
-    <div class="forecast__time">3 Uhr</div>
-    <div class="informations__container">
-      <img src="./img/icon_fullsun.svg" alt="" class="forecast__icon" />
-      <div class="forecast__temperature">15°C</div>
-    </div>
-    <div class="informations__container">
-      <i class="fa-solid fa-wind icon"></i>
-      <div class="forecast__windinformationens">10 km/h</div>
-    </div>
-    <div class="informations__container">
-      <i class="fa-solid fa-umbrella icon"></i>
-      <div class="forecast__rain-probability">60%</div>
-    </div>
-  </li>`;
 }
 
 // Eventlistener
@@ -153,14 +168,13 @@ dropDownSearchBtn.addEventListener("click", async () => {
 
       // CURRENT WEATHER
       state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
+      state.forecast = await fetchData(URL.forecast(lat, lon));
+      // state.airPollution = await fetchData(URL.airPollution(lat, lon));
 
       updateDOM();
       closeDropDownMenu();
       clearDropDownList();
       console.log(state);
-
-      // state.forecast = await fetchData(URL.forecast(lat, lon));
-      // state.airPollution = await fetchData(URL.airPollution(lat, lon));
     });
   } catch (error) {
     displayErrorMessage("Keinen Ort gefunden!");

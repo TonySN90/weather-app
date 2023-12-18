@@ -32,11 +32,16 @@ export function getDate(dateUnix, timezone) {
   return `${weekdayName} ${date.getUTCDate()}. ${monthName} ${hours}:${minutes} Uhr`;
 }
 
-export function getTime(dateUnix) {
-  const time = new Date(dateUnix * 1000);
+export function getTime(dateUnix, mez) {
+  const date = new Date(dateUnix * 1000);
+
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  const timeString = `${hours}:${minutes}`;
+
   const options = { hour12: false, hour: "2-digit", minute: "2-digit" };
   const formattedTime = new Intl.DateTimeFormat("default", options).format(
-    time
+    date
   );
-  return formattedTime;
+  return mez ? formattedTime : timeString;
 }
