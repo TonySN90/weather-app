@@ -60,6 +60,12 @@ function clearDropDownList() {
   dropDownList.innerHTML = "";
 }
 
+function clearForecastList() {
+  document
+    .querySelectorAll(".forecast__list-card")
+    .forEach((el) => el.remove());
+}
+
 function displayErrorMessage(message) {
   inputFieldValue.value = message;
   inputFieldValue.style.color = "red";
@@ -70,7 +76,6 @@ function displayErrorMessage(message) {
 }
 
 function createForcastListentry(forecast, date = true) {
-  console.log(getDate(forecast.dt));
   return `
   <li class="forecast__list-card">
     <div class="forecast__time">${
@@ -92,7 +97,7 @@ function createForcastListentry(forecast, date = true) {
     </div>
     <div class="informations__container">
       <i class="fa-solid fa-umbrella icon"></i>
-      <div class="forecast__rain-probability">60%</div>
+       <div class="forecast__rain-probability">${forecast.pop * 100}%</div>
     </div>
   </li>`;
 }
@@ -208,6 +213,7 @@ dropDownSearchBtn.addEventListener("click", async () => {
       state.forecast = await fetchData(URL.forecast(lat, lon));
       // state.airPollution = await fetchData(URL.airPollution(lat, lon));
 
+      clearForecastList();
       updateDOM();
       closeDropDownMenu();
       clearDropDownList();

@@ -10,8 +10,11 @@
 
 .informations__container {
   display: flex;
-  gap: 0.6rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   flex-wrap: wrap;
+  width: 25%;
 }
 
 .forecast__list {
@@ -27,8 +30,9 @@
     padding: 0.7rem;
 
     .forecast__time {
-      min-width: 5.4rem;
+      min-width: 4.5rem;
       overflow-wrap: break-word;
+      width: 25%;
     }
 
     .forecast__icon {

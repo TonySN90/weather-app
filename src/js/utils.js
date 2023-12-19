@@ -1,11 +1,11 @@
 const weekdayNames = [
-  "Sonntag",
-  "Montag",
-  "Dienstag",
-  "Mittwoch",
-  "Donnerstag",
-  "Freitag",
-  "Samstag",
+  "Sonn&shy;tag",
+  "Mon&shy;tag",
+  "Dien&shy;stag",
+  "Mitt&shy;woch",
+  "Donners&shy;tag",
+  "Frei&shy;tag",
+  "Sams&shy;tag",
 ];
 
 const monthNames = [
