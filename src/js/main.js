@@ -4,6 +4,8 @@ import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
 import { getDate, getTime } from "./utils";
 
+const headerImage = document.querySelector(".header__image");
+
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__li");
@@ -29,7 +31,6 @@ const now_description = document.querySelector(
 const hourlyForcastEl = document.querySelector(".hourly-forecast__list");
 const fiveDaysForcastEl = document.querySelector(".five-days-forecast__list");
 
-const qualityIndexEl = document.querySelector(".air-pollution__quality-index");
 const qualityIndexSpanEl = document.querySelector(
   ".air-pollution__quality-index > span"
 );
@@ -90,8 +91,7 @@ function createForcastListentry(forecast, date = true) {
   return `
   <li class="forecast__list-card">
     <div class="forecast__time">${
-      // date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
-      getTime(forecast.dt, false)
+      date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
     }</div>
     <div class="informations__container">
       <img src="./img/weather-icons-125x125/${
@@ -119,12 +119,11 @@ function createForcastListentry(forecast, date = true) {
 function filterMaxTemperatureDay() {
   const maxTempByDay = {};
 
-  // Durchlaufe das Wetterdaten-Array
   state.forecast.list.forEach((entry) => {
-    const date = entry.dt_txt.split(" ")[0]; // Extrahiere das Datum
-    const temp = entry.main.temp; // Hole die Temperatur
+    const date = entry.dt_txt.split(" ")[0]; // extract the date
+    const temp = entry.main.temp; // get the temperature
 
-    // Überprüfe, ob es bereits einen Eintrag für diesen Tag gibt
+    // Check if there is already an entry for this day
     if (!maxTempByDay[date] || temp > maxTempByDay[date].maxTemp) {
       maxTempByDay[date] = {
         maxTemp: temp,
@@ -133,12 +132,23 @@ function filterMaxTemperatureDay() {
     }
   });
 
-  // Extrahiere die Wettereinträge der Tage mit maximaler Temperatur
+  // Extract the weather entries of the days with maximum temperature
   const maxTempDays = Object.values(maxTempByDay).map(
     (day) => day.weatherEntry
   );
 
   return maxTempDays;
+}
+
+function customizeTheme() {
+  const themeColors = {
+    "01d": "#fff",
+    "01n": "#fff",
+  };
+
+  headerImage.style.backgroundImage = `url("./../img/header-bg/header__bg-small_${state.currentWeather.weather[0].icon}-01.png")`;
+  document.body.style.backgroundColor =
+    themeColors[`${state.currentWeather.weather[0].icon}`];
 }
 
 function updateDOM() {
@@ -264,6 +274,7 @@ dropDownSearchBtn.addEventListener("click", async () => {
       state.airPollution = await fetchData(URL.airPollution(lat, lon));
       // state.map = await fetchData(URL.map(lat, lon));
       console.log(state);
+      // customizeTheme();
 
       clearForecastList();
       updateDOM();

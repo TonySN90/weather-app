@@ -8,14 +8,13 @@ export const URL = {
     return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=de&units=metric`;
   },
   airPollution(lat, lon) {
-    return `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}`;
-    // ("http://api.openweathermap.org/data/2.5/air_pollution?lat=53.62937&lon=11.41316&appid=3f7d15f8a87ecf63772b7fcd776a2c91");
+    return `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}`;
   },
   reverseGeocoding(lat, lon) {
     return `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5`;
   },
   geocoding(query) {
-    return `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`;
+    return `https://api.openweathermap.org/geo/1.0/direct?q=${query}&lang=de&limit=5`;
   },
 };
 
