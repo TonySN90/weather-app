@@ -31,7 +31,7 @@ const fiveDaysForcastEl = document.querySelector(".five-days-forecast__list");
 
 const qualityIndexEl = document.querySelector(".air-pollution__quality-index");
 const qualityIndexSpanEl = document.querySelector(
-  ".air-pollution__quality-index span"
+  ".air-pollution__quality-index > span"
 );
 const no2El = document.querySelector(".air-pollution__no2-value");
 const pm10El = document.querySelector(".air-pollution__pm10-value");
@@ -90,7 +90,8 @@ function createForcastListentry(forecast, date = true) {
   return `
   <li class="forecast__list-card">
     <div class="forecast__time">${
-      date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
+      // date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
+      getTime(forecast.dt, false)
     }</div>
     <div class="informations__container">
       <img src="./img/weather-icons-125x125/${
@@ -179,15 +180,27 @@ function updateDOM() {
   // AIR-POLLUTION
 
   const aqi = {
-    1: "sehr gut",
-    2: "gut",
-    3: "moderat",
-    4: "schlecht",
-    5: "sehr schlecht",
+    quality: {
+      1: "sehr gut",
+      2: "gut",
+      3: "moderat",
+      4: "schlecht",
+      5: "sehr schlecht",
+    },
+
+    colors: {
+      1: "#006634",
+      2: "#3BAA34",
+      3: "#fed330",
+      4: "#FF5050",
+      5: "#960032",
+    },
   };
 
-  const aqiValue = aqi[state.airPollution.list[0].main.aqi];
+  const aqiValue = aqi.quality[state.airPollution.list[0].main.aqi];
   qualityIndexSpanEl.innerHTML = `${aqiValue}`;
+  qualityIndexSpanEl.style.backgroundColor =
+    aqi.colors[state.airPollution.list[0].main.aqi];
 
   no2El.innerHTML = `${state.airPollution.list[0].components.no2.toFixed(
     2
