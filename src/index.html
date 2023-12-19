@@ -44,30 +44,32 @@
           Aktuell: Nachts weiterhin dunkel!
         </div>
         <div class="now-section__container">
-          <div class="now-section__temperature grid-item">19°C</div>
-          <div class="now-section__rain-probability-containter grid-item">
-            <i class="fa-solid fa-umbrella"></i>
-            <div class="now-section__rain-probability">90%</div>
-          </div>
-          <div class="now-section__sky-informations-container grid-item">
-            <img
-              class="sky-informations-image"
-              src="./img/icon_sun-with-clouds.svg"
-              alt=""
-            />
-            <div class="now-section__sky-informations"></div>
-          </div>
-          <div class="now-section__feelsLike grid-item">
-            Gefühlt wie <br />
-            17 °C
-          </div>
-          <div class="now-section__humidity-container grid-item">
-            <i class="fa-solid fa-droplet"></i>
-            <div class="humidity__value">80%</div>
-          </div>
-          <div class="now-section__wind-informations-container grid-item">
-            <i class="fa-solid fa-wind icon"></i>
-            <div class="wind-informations__value">22 km/h</div>
+          <div class="now-section__content">
+            <div class="now-section__temperature grid-item">19°C</div>
+            <div class="now-section__air-pressure-container grid-item">
+              <i class="fa-solid fa-arrow-down-short-wide"></i>
+              <div class="now-section__air-pressure-value">90%</div>
+            </div>
+            <div class="now-section__sky-informations-container grid-item">
+              <img
+                class="sky-informations-image"
+                src="./img/icon_sun-with-clouds.svg"
+                alt=""
+              />
+              <div class="now-section__sky-informations"></div>
+            </div>
+            <div class="now-section__feelsLike grid-item">
+              Gefühlt wie <br />
+              17 °C
+            </div>
+            <div class="now-section__humidity-container grid-item">
+              <i class="fa-solid fa-droplet"></i>
+              <div class="humidity__value">80%</div>
+            </div>
+            <div class="now-section__wind-informations-container grid-item">
+              <i class="fa-solid fa-wind icon"></i>
+              <div class="wind-informations__value">22 km/h</div>
+            </div>
           </div>
         </div>
       </section>
@@ -78,6 +80,41 @@
         <div class="block__container">
           <div class="title--margin">Stundenvorhersage</div>
           <ul class="hourly-forecast__list forecast__list"></ul>
+        </div>
+      </section>
+
+      <!-- Air-pollution -->
+
+      <section id="air-pollution" class="block--alignment">
+        <div class="block__container">
+          <div class="title--margin">Luftverschmutzung</div>
+          <div class="air-pollution__content">
+            <div class="air-pollution__quality-index">
+              Luftqualität: <span>sehr gut</span>
+            </div>
+            <div class="air-pollution__details">
+              <div class="air-pollution__detail">
+                <div class="air-pollution__title">
+                  <b>Stickstoffdioxid (NO2):</b>
+                </div>
+                <div class="air-pollution__no2-value">104 μg/m3</div>
+              </div>
+              <div class="air-pollution__detail">
+                <div class="air-pollution__title"><b>Feinstaub (PM10):</b></div>
+                <div class="air-pollution__pm10-value">45 μg/m3</div>
+              </div>
+              <div class="air-pollution__detail">
+                <div class="air-pollution__title">
+                  <b>Feinstaub (PM2.5):</b>
+                </div>
+                <div class="air-pollution__pm2_5-value">45 μg/m3</div>
+              </div>
+              <div class="air-pollution__detail">
+                <div class="air-pollution__title"><b>Ozon (O3):</b></div>
+                <div class="air-pollution__o3-value">150 μg/m3</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
-#now-section {
-  width: 100%;
-}
+// #now-section {
+//   width: 100%;
+// }
 
 @mixin positioning-now-box {
   display: flex;
@@ -16,6 +16,11 @@
 }
 
 .now-section__container {
+  margin: 1rem;
+  border-radius: $textblock-border-radius;
+}
+
+.now-section__content {
   display: grid;
   grid-template-rows: 4rem;
   grid-template-columns: repeat(3, 1fr);

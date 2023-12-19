@@ -1,0 +1,35 @@
+.air-pollution__content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: $textblock-border-radius;
+  background-color: $color-textblock-bg-blur;
+}
+
+.air-pollution__quality-index {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  text-align: center;
+
+  & span {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: $textblock-border-radius;
+    background-color: green;
+  }
+}
+
+.air-pollution__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  .air-pollution__detail {
+    display: flex;
+  }
+
+  .air-pollution__title {
+    width: 12rem;
+  }
+}

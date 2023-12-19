@@ -16,7 +16,9 @@ const locationTime = document.querySelector(".header__location-time");
 
 const now_temperature = document.querySelector(".now-section__temperature");
 const now_feelsLike = document.querySelector(".now-section__feelsLike");
-const now_rain = document.querySelector(".now-section__rain-probability");
+const now_airPressure = document.querySelector(
+  ".now-section__air-pressure-value"
+);
 const now_humidity = document.querySelector(".humidity__value");
 const now_wind = document.querySelector(".wind-informations__value");
 const now_sky = document.querySelector(".sky-informations-image");
@@ -26,6 +28,15 @@ const now_description = document.querySelector(
 
 const hourlyForcastEl = document.querySelector(".hourly-forecast__list");
 const fiveDaysForcastEl = document.querySelector(".five-days-forecast__list");
+
+const qualityIndexEl = document.querySelector(".air-pollution__quality-index");
+const qualityIndexSpanEl = document.querySelector(
+  ".air-pollution__quality-index span"
+);
+const no2El = document.querySelector(".air-pollution__no2-value");
+const pm10El = document.querySelector(".air-pollution__pm10-value");
+const pm25El = document.querySelector(".air-pollution__pm2_5-value");
+const o3El = document.querySelector(".air-pollution__o3-value");
 
 const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
@@ -141,10 +152,8 @@ function updateDOM() {
   now_feelsLike.innerHTML = `Gefühlt wie ${Math.round(
     state.currentWeather.main.feels_like
   )}°C`;
-  now_rain.innerHTML = `${
-    state.currentWeather.main.rain ? state.currentWeather.main.rain : "0"
-  }%`;
-  now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
+  now_airPressure.innerHTML = `${state.currentWeather.main.pressure}hPa`;
+  now_humidity.innerHTML = `${state.currentWeather.main.humidity}`;
   now_sky.src = `./img/weather-icons-125x125/${state.currentWeather.weather[0].icon}.png`;
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
@@ -166,6 +175,32 @@ function updateDOM() {
   document
     .querySelector(".five-days-forecast__list")
     .firstElementChild.querySelector(".forecast__time").innerHTML = "Morgen";
+
+  // AIR-POLLUTION
+
+  const aqi = {
+    1: "sehr gut",
+    2: "gut",
+    3: "moderat",
+    4: "schlecht",
+    5: "sehr schlecht",
+  };
+
+  const aqiValue = aqi[state.airPollution.list[0].main.aqi];
+  qualityIndexSpanEl.innerHTML = `${aqiValue}`;
+
+  no2El.innerHTML = `${state.airPollution.list[0].components.no2.toFixed(
+    2
+  )} μg/m3`;
+  pm10El.innerHTML = `${state.airPollution.list[0].components.pm10.toFixed(
+    2
+  )} μg/m3`;
+  pm25El.innerHTML = `${state.airPollution.list[0].components.pm2_5.toFixed(
+    2
+  )} μg/m3`;
+  o3El.innerHTML = `${state.airPollution.list[0].components.o3.toFixed(
+    2
+  )} μg/m3`;
 
   // SUNRISE-/SET
   sunriseEl.innerHTML = `${getTime(
@@ -211,13 +246,14 @@ dropDownSearchBtn.addEventListener("click", async () => {
       // CURRENT WEATHER
       state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
       state.forecast = await fetchData(URL.forecast(lat, lon));
-      // state.airPollution = await fetchData(URL.airPollution(lat, lon));
+      state.airPollution = await fetchData(URL.airPollution(lat, lon));
+      console.log(state);
+      // state.map = await fetchData(URL.map(lat, lon));
 
       clearForecastList();
       updateDOM();
       closeDropDownMenu();
       clearDropDownList();
-      console.log(state);
     });
   } catch (error) {
     displayErrorMessage("Keinen Ort gefunden!");
