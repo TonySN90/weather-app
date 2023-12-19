@@ -27,12 +27,10 @@ export function getDate(dateUnix, timezone) {
   let date = "";
   if (timezone) {
     date = new Date((dateUnix + timezone) * 1000);
-    console.log(date);
   } else {
     date = new Date(dateUnix * 1000);
   }
 
-  console.log(date);
   const weekdayName = weekdayNames[date.getUTCDay()];
   const monthName = monthNames[date.getUTCMonth()];
   const hours = date.getUTCHours().toString().padStart(2, "0");
@@ -59,7 +57,3 @@ export function getTime(dateUnix, mez) {
 
   return mez ? formattedTime : timeString;
 }
-
-console.log(Date.now());
-let date = new Date(Date.now());
-console.log(date);

@@ -109,7 +109,9 @@ function createForcastListentry(forecast, date = true) {
     </div>
     <div class="informations__container">
       <i class="fa-solid fa-umbrella icon"></i>
-       <div class="forecast__rain-probability">${forecast.pop * 100}%</div>
+       <div class="forecast__rain-probability">${(
+         forecast.pop * 100
+       ).toFixed()}%</div>
     </div>
   </li>`;
 }
@@ -154,7 +156,7 @@ function updateDOM() {
     state.currentWeather.main.feels_like
   )}°C`;
   now_airPressure.innerHTML = `${state.currentWeather.main.pressure}hPa`;
-  now_humidity.innerHTML = `${state.currentWeather.main.humidity}`;
+  now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
   now_sky.src = `./img/weather-icons-125x125/${state.currentWeather.weather[0].icon}.png`;
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
@@ -260,8 +262,8 @@ dropDownSearchBtn.addEventListener("click", async () => {
       state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
       state.forecast = await fetchData(URL.forecast(lat, lon));
       state.airPollution = await fetchData(URL.airPollution(lat, lon));
-      console.log(state);
       // state.map = await fetchData(URL.map(lat, lon));
+      console.log(state);
 
       clearForecastList();
       updateDOM();
