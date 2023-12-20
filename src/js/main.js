@@ -164,12 +164,15 @@ function customizeTheme() {
 
   // const iconId = state.currentWeather.weather[0].icon;
   const iconId = "02d";
-  console.log(iconId);
   headerImage.style.backgroundImage = `url(./../img/header-bg/header__bg-small_${iconId}-01.png)`;
 
   document.body.style.backgroundColor = themeColors[iconId];
-  // document.styleSheets[0].cssRules[0].style.backgroundColor = 'red';
-  console.log(document.styleSheets);
+  locationName.style.color = themeColors[iconId];
+  locationTime.style.color = themeColors[iconId];
+  displayDropDownBtn.querySelector(".icon--middle").style.color =
+    themeColors[iconId];
+  inputFieldValue.style.backgroundColor = themeColors[iconId];
+  dropDownSearchBtn.style.backgroundColor = themeColors[iconId];
 }
 
 function updateDOM() {
@@ -258,6 +261,32 @@ function updateDOM() {
     state.currentWeather.timezone
   )} Uhr`;
 }
+
+async function init() {
+  const defaultValue = {
+    name: "schwerin",
+    lat: "53.6288297",
+    lon: "11.4148038",
+  };
+
+  state.currentWeather = await fetchData(
+    URL.currentWeather(defaultValue.lat, defaultValue.lon)
+  );
+  state.forecast = await fetchData(
+    URL.forecast(defaultValue.lat, defaultValue.lon)
+  );
+  state.airPollution = await fetchData(
+    URL.airPollution(defaultValue.lat, defaultValue.lon)
+  );
+
+  customizeTheme();
+  clearForecastList();
+  updateDOM();
+  closeDropDownMenu();
+  clearDropDownList();
+}
+
+init();
 
 // Eventlistener
 
