@@ -142,13 +142,34 @@ function filterMaxTemperatureDay() {
 
 function customizeTheme() {
   const themeColors = {
-    "01d": "#fff",
-    "01n": "#fff",
+    "01d": "#282623",
+    "01n": "#00172D",
+    "02d": "#260C0D",
+    "02n": "#000",
+    "03d": "#204770",
+    "03n": "",
+    "04d": "#000",
+    "04n": "#000",
+    "09d": "#204770",
+    "09n": "#204770",
+    "10d": "#000",
+    "10n": "#132F43",
+    "11d": "#000",
+    "11n": "#000",
+    "13d": "#E3ECF7",
+    "13n": "#000",
+    "50d": "#000",
+    "50n": "#000",
   };
 
-  headerImage.style.backgroundImage = `url("./../img/header-bg/header__bg-small_${state.currentWeather.weather[0].icon}-01.png")`;
-  document.body.style.backgroundColor =
-    themeColors[`${state.currentWeather.weather[0].icon}`];
+  // const iconId = state.currentWeather.weather[0].icon;
+  const iconId = "02d";
+  console.log(iconId);
+  headerImage.style.backgroundImage = `url(./../img/header-bg/header__bg-small_${iconId}-01.png)`;
+
+  document.body.style.backgroundColor = themeColors[iconId];
+  // document.styleSheets[0].cssRules[0].style.backgroundColor = 'red';
+  console.log(document.styleSheets);
 }
 
 function updateDOM() {
@@ -274,7 +295,7 @@ dropDownSearchBtn.addEventListener("click", async () => {
       state.airPollution = await fetchData(URL.airPollution(lat, lon));
       // state.map = await fetchData(URL.map(lat, lon));
       console.log(state);
-      // customizeTheme();
+      customizeTheme();
 
       clearForecastList();
       updateDOM();
@@ -286,3 +307,10 @@ dropDownSearchBtn.addEventListener("click", async () => {
     console.log(`Errormeldung: ${error}`);
   }
 });
+
+const themeColors = {
+  "01d": "#fff",
+  "01n": "#fff",
+};
+
+console.log(themeColors["01d"]);
