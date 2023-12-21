@@ -47,19 +47,24 @@
   }
 }
 
-.drop-down__li {
-  border-radius: $textblock-border-radius;
+.drop-down__list {
   list-style: none;
-  background-color: $color-primary;
   cursor: pointer;
-}
 
-.drop-down__list-entry {
-  padding: 1rem;
-  transition: all 0.2s;
+  &-entry {
+    margin-block: 0.3rem;
+    border-radius: $textblock-border-radius;
+    padding: 1rem;
+    transition: all 0.2s;
+    background-color: $color-primary;
 
-  &:hover {
-    background-color: $color-dropdown-hover;
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+
+    &:hover {
+      background-color: $color-dropdown-hover;
+    }
   }
 }
 

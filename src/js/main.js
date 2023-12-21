@@ -8,7 +8,7 @@ const headerImage = document.querySelector(".header__image");
 
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
-const dropDownList = document.querySelector(".drop-down__li");
+const dropDownList = document.querySelector(".drop-down__search-list");
 const inputFieldValue = document.querySelector(".drop-down__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
@@ -181,6 +181,9 @@ function customizeTheme() {
     themeColors[iconId];
   inputFieldValue.style.backgroundColor = themeColors[iconId];
   dropDownSearchBtn.style.backgroundColor = themeColors[iconId];
+  document
+    .querySelectorAll(".drop-down__list-entry")
+    .forEach((el) => (el.style.backgroundColor = themeColors[iconId]));
 }
 
 function updateDOM() {
