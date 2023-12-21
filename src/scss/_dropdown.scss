@@ -9,7 +9,7 @@
   transition: all 0.5s;
 }
 
-.drop-down-menu__container {
+.drop-down__container {
   margin: 0 1rem;
 
   .search__container {
@@ -68,5 +68,41 @@
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
-  // margin:auto;
+}
+
+hr {
+  height: 3px;
+  width: 100%;
+
+  margin: 1rem auto 1rem auto;
+  border: none;
+  border-radius: $textblock-border-radius;
+  background-color: $color-primary;
+}
+
+.themes__title {
+  margin-bottom: 1rem;
+}
+
+.themes__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  // height: auto;
+
+  &-theme {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $color-dropdown-hover;
+
+    width: 47%;
+    height: 3.5rem;
+    border: 3px solid $color-primary;
+    border-radius: $textblock-border-radius;
+  }
 }

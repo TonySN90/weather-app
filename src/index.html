@@ -29,7 +29,7 @@
 
         <div class="header__search-bar">
           <button class="current-location__button">
-            <i class="fa-solid fa-magnifying-glass icon--middle"></i>
+            <i class="fa-solid fa-bars icon--middle"></i>
           </button>
         </div>
       </div>
@@ -146,12 +146,12 @@
 
       <!-- DROP-DOWN__MENU -->
       <div class="drop-down">
-        <div class="drop-down-menu__container">
+        <div class="drop-down__container">
           <div class="search__container">
             <input
               type="text"
               name="searchfield"
-              class="drop-down-menu__searchfield"
+              class="drop-down__searchfield"
               placeholder="Welchen Ort suchst du?"
             />
             <div class="drop-down__search_button">
@@ -159,10 +159,26 @@
             </div>
           </div>
           <ul class="drop-down__li"></ul>
+
+          <hr />
+
+          <div class="drop-down__favourites-title">Deine Standorte</div>
+          <ul class="drop-down__favourites-list">
+
+          <div class="themes__title">Themes</div>
+          <div class="themes__container">
+            <div class="themes__container-theme" data-id="100">
+              Mystic River
+            </div>
+            <div class="themes__container-theme" data-id="100"></div>
+            <div class="themes__container-theme" data-id="100"></div>
+            <div class="themes__container-theme" data-id="100"></div>
+          </div>
+
           <div class="drop-down__close-button">
             <i class="fa-solid fa-angle-up icon--middle"></i>
           </div>
-        </div>
+        </ul>
       </div>
     </div>
   </body>

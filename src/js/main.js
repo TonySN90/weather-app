@@ -9,7 +9,7 @@ const headerImage = document.querySelector(".header__image");
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__li");
-const inputFieldValue = document.querySelector(".drop-down-menu__searchfield");
+const inputFieldValue = document.querySelector(".drop-down__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
 
@@ -141,6 +141,15 @@ function filterMaxTemperatureDay() {
 }
 
 function customizeTheme() {
+  const themes = [
+    {
+      id: "100",
+      mainColor: "#282623",
+      blurColor: "#282623",
+      fontColor: "#282623",
+    },
+  ];
+
   const themeColors = {
     "01d": "#282623",
     "01n": "#00172D",
@@ -149,7 +158,7 @@ function customizeTheme() {
     "03d": "#260C0D",
     "03n": "#132F43",
     "04d": "#204770",
-    "04n": "#132F43",
+    "04n": "#091523",
     "09d": "#1F2035",
     "09n": "#000",
     "10d": "#F3D8B5",
@@ -162,8 +171,8 @@ function customizeTheme() {
     "50n": "#000",
   };
 
-  const iconId = "03n";
-  headerImage.style.backgroundImage = `url(./../img/header-bg/night/header__bg-small_${iconId}.png)`;
+  const iconId = "11d";
+  headerImage.style.backgroundImage = `url(./../img/header-bg/themeimages/header__bg-small_${iconId}.png)`;
 
   document.body.style.backgroundColor = themeColors[iconId];
   locationName.style.color = themeColors[iconId];
@@ -300,9 +309,7 @@ closeDropDownBtn.addEventListener("click", () => {
 dropDownSearchBtn.addEventListener("click", async () => {
   clearDropDownList();
   try {
-    const inputFieldValue = document.querySelector(
-      ".drop-down-menu__searchfield"
-    );
+    const inputFieldValue = document.querySelector(".drop-down__searchfield");
     state.query = inputFieldValue.value;
 
     // GEOCODING
