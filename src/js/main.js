@@ -144,27 +144,26 @@ function customizeTheme() {
   const themeColors = {
     "01d": "#282623",
     "01n": "#00172D",
-    "02d": "#260C0D",
+    "02d": "#A44900",
     "02n": "#000",
-    "03d": "#204770",
-    "03n": "",
-    "04d": "#000",
-    "04n": "#000",
-    "09d": "#204770",
-    "09n": "#204770",
-    "10d": "#000",
-    "10n": "#132F43",
-    "11d": "#000",
-    "11n": "#000",
+    "03d": "#260C0D",
+    "03n": "#132F43",
+    "04d": "#204770",
+    "04n": "#132F43",
+    "09d": "#1F2035",
+    "09n": "#000",
+    "10d": "#F3D8B5",
+    "10n": "#1E203D",
+    "11d": "#12031E",
+    "11n": "#060600",
     "13d": "#E3ECF7",
-    "13n": "#000",
+    "13n": "#191F3F",
     "50d": "#000",
     "50n": "#000",
   };
 
-  // const iconId = state.currentWeather.weather[0].icon;
-  const iconId = "02d";
-  headerImage.style.backgroundImage = `url(./../img/header-bg/header__bg-small_${iconId}-01.png)`;
+  const iconId = "03n";
+  headerImage.style.backgroundImage = `url(./../img/header-bg/night/header__bg-small_${iconId}.png)`;
 
   document.body.style.backgroundColor = themeColors[iconId];
   locationName.style.color = themeColors[iconId];
@@ -336,10 +335,3 @@ dropDownSearchBtn.addEventListener("click", async () => {
     console.log(`Errormeldung: ${error}`);
   }
 });
-
-const themeColors = {
-  "01d": "#fff",
-  "01n": "#fff",
-};
-
-console.log(themeColors["01d"]);
