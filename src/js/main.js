@@ -42,12 +42,15 @@ const o3El = document.querySelector(".air-pollution__o3-value");
 const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
 
+const themesContainer = document.querySelector(".themes__container");
+
 const state = {
   query: "",
   currentLocation: "",
   currentWeather: [],
   forecast: [],
   locationsList: [],
+  currentTheme: "01",
 };
 
 function createHtmlListEntries() {
@@ -140,16 +143,52 @@ function filterMaxTemperatureDay() {
   return maxTempDays;
 }
 
-function customizeTheme() {
-  const themes = [
-    {
-      id: "100",
-      mainColor: "#282623",
-      blurColor: "#282623",
-      fontColor: "#282623",
-    },
-  ];
+// THEMES
 
+const themes = [
+  {
+    id: "01",
+    name: "dreamy lake view",
+    mainColor: "#282623",
+    blurColor: "#282623",
+    fontColor: "#282623",
+    picture: "dreamy-lake-small",
+  },
+
+  {
+    id: "02",
+    name: "beautiful mountains",
+    mainColor: "#260C0D",
+    blurColor: "#260C0D",
+    fontColor: "#260C0D",
+    picture: "beautiful-mountains-small",
+  },
+  {
+    id: "03",
+    name: "awakening city",
+    mainColor: "#12031E",
+    blurColor: "#12031E",
+    fontColor: "#12031E",
+    picture: "awakening-city",
+  },
+  {
+    id: "04",
+    name: "sunset",
+    mainColor: "#1E203D",
+    blurColor: "#1E203D",
+    fontColor: "#1E203D",
+    picture: "sunset",
+  },
+];
+
+function listAllThemes() {
+  themes.forEach((theme) => {
+    const htmlMarkup = `<div class="themes__container-theme" data-id="${theme.id}">${theme.name}</div>`;
+    themesContainer.insertAdjacentHTML("afterbegin", htmlMarkup);
+  });
+}
+
+function customizeTheme() {
   const themeColors = {
     "01d": "#282623",
     "01n": "#00172D",
@@ -171,19 +210,19 @@ function customizeTheme() {
     "50n": "#000",
   };
 
-  const iconId = "11d";
-  headerImage.style.backgroundImage = `url(./../img/header-bg/themeimages/header__bg-small_${iconId}.png)`;
+  const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
 
-  document.body.style.backgroundColor = themeColors[iconId];
-  locationName.style.color = themeColors[iconId];
-  locationTime.style.color = themeColors[iconId];
+  headerImage.style.backgroundImage = `url(./../img/themeimages/${currentTheme.picture}.png)`;
+  document.body.style.backgroundColor = currentTheme.mainColor;
+  locationName.style.color = currentTheme.mainColor;
+  locationTime.style.color = currentTheme.mainColor;
   displayDropDownBtn.querySelector(".icon--middle").style.color =
-    themeColors[iconId];
-  inputFieldValue.style.backgroundColor = themeColors[iconId];
-  dropDownSearchBtn.style.backgroundColor = themeColors[iconId];
+    currentTheme.mainColor;
+  inputFieldValue.style.backgroundColor = currentTheme.mainColor;
+  dropDownSearchBtn.style.backgroundColor = currentTheme.mainColor;
   document
     .querySelectorAll(".drop-down__list-entry")
-    .forEach((el) => (el.style.backgroundColor = themeColors[iconId]));
+    .forEach((el) => (el.style.backgroundColor = currentTheme.mainColor));
 }
 
 function updateDOM() {
@@ -280,19 +319,19 @@ async function init() {
     lon: "11.4148038",
   };
 
-  state.currentWeather = await fetchData(
-    URL.currentWeather(defaultValue.lat, defaultValue.lon)
-  );
-  state.forecast = await fetchData(
-    URL.forecast(defaultValue.lat, defaultValue.lon)
-  );
-  state.airPollution = await fetchData(
-    URL.airPollution(defaultValue.lat, defaultValue.lon)
-  );
-
+  // state.currentWeather = await fetchData(
+  //   URL.currentWeather(defaultValue.lat, defaultValue.lon)
+  // );
+  // state.forecast = await fetchData(
+  //   URL.forecast(defaultValue.lat, defaultValue.lon)
+  // );
+  // state.airPollution = await fetchData(
+  //   URL.airPollution(defaultValue.lat, defaultValue.lon)
+  // );
+  listAllThemes();
   customizeTheme();
   clearForecastList();
-  updateDOM();
+  // updateDOM();
   closeDropDownMenu();
   clearDropDownList();
 }
@@ -344,4 +383,14 @@ dropDownSearchBtn.addEventListener("click", async () => {
     displayErrorMessage("Keinen Ort gefunden!");
     console.log(`Errormeldung: ${error}`);
   }
+});
+
+themesContainer.addEventListener("click", (e) => {
+  const el = e.target.closest(".themes__container-theme");
+  if (!el) return;
+
+  const selectedId = el.dataset.id;
+  state.currentTheme = selectedId;
+  customizeTheme();
+  closeDropDownMenu();
 });
