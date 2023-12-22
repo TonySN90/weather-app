@@ -155,7 +155,6 @@ const themes = [
     name: "dreamy lake view",
     mainColor: "#282623",
     secondaryColor: "#F7BDAC",
-    blurColor: "#282623",
     fontColor: "#282623",
     picture: "dreamy-lake-small",
   },
@@ -165,7 +164,6 @@ const themes = [
     name: "beautiful mountains",
     mainColor: "#260C0D",
     secondaryColor: "#FDD7A8",
-    blurColor: "#260C0D",
     fontColor: "#260C0D",
     picture: "beautiful-mountains-small",
   },
@@ -174,7 +172,6 @@ const themes = [
     name: "awakening city",
     mainColor: "#12031E",
     secondaryColor: "#918EED",
-    blurColor: "#12031E",
     fontColor: "#12031E",
     picture: "awakening-city",
   },
@@ -183,7 +180,6 @@ const themes = [
     name: "sunset",
     mainColor: "#1E203D",
     secondaryColor: "#F36281",
-    blurColor: "#1E203D",
     fontColor: "#1E203D",
     picture: "sunset",
   },
@@ -192,7 +188,7 @@ const themes = [
 function listAllThemes() {
   themes.forEach((theme) => {
     const htmlMarkup = `<div class="themes__container-theme" data-id="${theme.id}">${theme.name}</div>`;
-    themesContainer.insertAdjacentHTML("afterbegin", htmlMarkup);
+    themesContainer.insertAdjacentHTML("beforeend", htmlMarkup);
   });
 }
 
@@ -219,6 +215,7 @@ function setTheme() {
   };
 
   const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
+  const themesEl = document.querySelectorAll(".themes__container-theme");
 
   headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
   document.body.style.backgroundColor = currentTheme.mainColor;
@@ -232,25 +229,16 @@ function setTheme() {
     .querySelectorAll(".drop-down__list-entry")
     .forEach((el) => (el.style.backgroundColor = currentTheme.mainColor));
 
-  const themesEl = document.querySelectorAll(".themes__container-theme");
-  themesEl.forEach((el) => {
+  themesEl.forEach((el, i) => {
     el.style.border = `3px solid ${currentTheme.mainColor}`;
+    el.style.backgroundImage = `url(./../img/theme-images/${themes[i].picture}.png)`;
+    console.log(el.dataset.id, themes[i].picture);
   });
 
   themesEl.forEach((theme) => {
     if (theme.dataset.id == state.currentTheme)
       theme.style.border = `3px solid ${currentTheme.secondaryColor}`;
   });
-}
-
-function setActiveTheme(el) {
-  const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
-  const themesEl = document.querySelectorAll(".themes__container-theme");
-
-  themesEl.forEach(
-    (el) => (el.style.border = `3px solid ${currentTheme.mainColor}`)
-  );
-  el.style.border = `3px solid ${currentTheme.secondaryColor}`;
 }
 
 function updateDOM() {
