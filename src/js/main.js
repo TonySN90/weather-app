@@ -50,7 +50,7 @@ const state = {
   currentWeather: [],
   forecast: [],
   locationsList: [],
-  currentTheme: "01",
+  currentTheme: "03",
 };
 
 function createHtmlListEntries() {
@@ -68,7 +68,7 @@ function displayDropDownMEnu() {
   dropDownEl.style.top = "0";
 }
 function closeDropDownMenu() {
-  dropDownEl.style.top = "-30rem";
+  dropDownEl.style.top = "-40rem";
 }
 
 function clearDropDownList() {
@@ -212,7 +212,7 @@ function customizeTheme() {
 
   const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
 
-  headerImage.style.backgroundImage = `url(./../img/themeimages/${currentTheme.picture}.png)`;
+  headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
   document.body.style.backgroundColor = currentTheme.mainColor;
   locationName.style.color = currentTheme.mainColor;
   locationTime.style.color = currentTheme.mainColor;
@@ -319,20 +319,22 @@ async function init() {
     lon: "11.4148038",
   };
 
-  // state.currentWeather = await fetchData(
-  //   URL.currentWeather(defaultValue.lat, defaultValue.lon)
-  // );
-  // state.forecast = await fetchData(
-  //   URL.forecast(defaultValue.lat, defaultValue.lon)
-  // );
-  // state.airPollution = await fetchData(
-  //   URL.airPollution(defaultValue.lat, defaultValue.lon)
-  // );
   listAllThemes();
   customizeTheme();
+
+  state.currentWeather = await fetchData(
+    URL.currentWeather(defaultValue.lat, defaultValue.lon)
+  );
+  state.forecast = await fetchData(
+    URL.forecast(defaultValue.lat, defaultValue.lon)
+  );
+  state.airPollution = await fetchData(
+    URL.airPollution(defaultValue.lat, defaultValue.lon)
+  );
+
   clearForecastList();
-  // updateDOM();
-  closeDropDownMenu();
+  updateDOM();
+  // closeDropDownMenu();
   clearDropDownList();
 }
 
