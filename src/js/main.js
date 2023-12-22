@@ -45,8 +45,12 @@ const sunsetEl = document.querySelector(".sunset__time");
 const themesContainer = document.querySelector(".themes__container");
 
 const state = {
+  currentLocation: {
+    locationName: "Schwerin",
+    lat: "53.6288297",
+    lon: "11.4148038",
+  },
   query: "",
-  currentLocation: "",
   currentWeather: [],
   forecast: [],
   locationsList: [],
@@ -150,6 +154,7 @@ const themes = [
     id: "01",
     name: "dreamy lake view",
     mainColor: "#282623",
+    secondaryColor: "#F7BDAC",
     blurColor: "#282623",
     fontColor: "#282623",
     picture: "dreamy-lake-small",
@@ -159,6 +164,7 @@ const themes = [
     id: "02",
     name: "beautiful mountains",
     mainColor: "#260C0D",
+    secondaryColor: "#FDD7A8",
     blurColor: "#260C0D",
     fontColor: "#260C0D",
     picture: "beautiful-mountains-small",
@@ -167,6 +173,7 @@ const themes = [
     id: "03",
     name: "awakening city",
     mainColor: "#12031E",
+    secondaryColor: "#918EED",
     blurColor: "#12031E",
     fontColor: "#12031E",
     picture: "awakening-city",
@@ -175,6 +182,7 @@ const themes = [
     id: "04",
     name: "sunset",
     mainColor: "#1E203D",
+    secondaryColor: "#F36281",
     blurColor: "#1E203D",
     fontColor: "#1E203D",
     picture: "sunset",
@@ -188,7 +196,7 @@ function listAllThemes() {
   });
 }
 
-function customizeTheme() {
+function setTheme() {
   const themeColors = {
     "01d": "#282623",
     "01n": "#00172D",
@@ -223,6 +231,26 @@ function customizeTheme() {
   document
     .querySelectorAll(".drop-down__list-entry")
     .forEach((el) => (el.style.backgroundColor = currentTheme.mainColor));
+
+  const themesEl = document.querySelectorAll(".themes__container-theme");
+  themesEl.forEach((el) => {
+    el.style.border = `3px solid ${currentTheme.mainColor}`;
+  });
+
+  themesEl.forEach((theme) => {
+    if (theme.dataset.id == state.currentTheme)
+      theme.style.border = `3px solid ${currentTheme.secondaryColor}`;
+  });
+}
+
+function setActiveTheme(el) {
+  const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
+  const themesEl = document.querySelectorAll(".themes__container-theme");
+
+  themesEl.forEach(
+    (el) => (el.style.border = `3px solid ${currentTheme.mainColor}`)
+  );
+  el.style.border = `3px solid ${currentTheme.secondaryColor}`;
 }
 
 function updateDOM() {
@@ -312,30 +340,31 @@ function updateDOM() {
   )} Uhr`;
 }
 
-async function init() {
-  const defaultValue = {
-    name: "schwerin",
-    lat: "53.6288297",
-    lon: "11.4148038",
-  };
+function safeThemeInLocalStorage(themeId) {
+  localStorage.setItem("weatherTheme", JSON.stringify(themeId));
+}
 
+function loadDataFromLocalStorage() {
+  const themeId = JSON.parse(localStorage.getItem("weatherTheme"));
+  if (themeId) state.currentTheme = themeId;
+}
+
+async function init() {
+  loadDataFromLocalStorage();
   listAllThemes();
-  customizeTheme();
+  setTheme();
 
   state.currentWeather = await fetchData(
-    URL.currentWeather(defaultValue.lat, defaultValue.lon)
+    URL.currentWeather(state.currentLocation.lat, state.currentLocation.lon)
   );
   state.forecast = await fetchData(
-    URL.forecast(defaultValue.lat, defaultValue.lon)
+    URL.forecast(state.currentLocation.lat, state.currentLocation.lon)
   );
   state.airPollution = await fetchData(
-    URL.airPollution(defaultValue.lat, defaultValue.lon)
+    URL.airPollution(state.currentLocation.lat, state.currentLocation.lon)
   );
 
-  clearForecastList();
   updateDOM();
-  // closeDropDownMenu();
-  clearDropDownList();
 }
 
 init();
@@ -372,9 +401,8 @@ dropDownSearchBtn.addEventListener("click", async () => {
       state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
       state.forecast = await fetchData(URL.forecast(lat, lon));
       state.airPollution = await fetchData(URL.airPollution(lat, lon));
-      // state.map = await fetchData(URL.map(lat, lon));
       console.log(state);
-      customizeTheme();
+      setTheme();
 
       clearForecastList();
       updateDOM();
@@ -393,6 +421,8 @@ themesContainer.addEventListener("click", (e) => {
 
   const selectedId = el.dataset.id;
   state.currentTheme = selectedId;
-  customizeTheme();
+  setTheme();
+  // setActiveTheme(el);
   closeDropDownMenu();
+  safeThemeInLocalStorage(selectedId);
 });
