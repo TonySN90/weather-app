@@ -183,11 +183,27 @@ const themes = [
     fontColor: "#1E203D",
     picture: "sunset",
   },
+  {
+    id: "05",
+    name: "beach",
+    mainColor: "#F3D8B5",
+    secondaryColor: "#BAE5F6",
+    fontColor: "#44B0D9",
+    picture: "beach",
+  },
+  {
+    id: "06",
+    name: "sidney",
+    mainColor: "#060600",
+    secondaryColor: "#F36281",
+    fontColor: "#1E203D",
+    picture: "sidney",
+  },
 ];
 
 function listAllThemes() {
   themes.forEach((theme) => {
-    const htmlMarkup = `<div class="themes__container-theme" data-id="${theme.id}">${theme.name}</div>`;
+    const htmlMarkup = `<div class="themes__container-theme" data-id="${theme.id}"></div>`;
     themesContainer.insertAdjacentHTML("beforeend", htmlMarkup);
   });
 }
@@ -232,6 +248,8 @@ function setTheme() {
   themesEl.forEach((el, i) => {
     el.style.border = `3px solid ${currentTheme.mainColor}`;
     el.style.backgroundImage = `url(./../img/theme-images/${themes[i].picture}.png)`;
+    el.style.background = `"url(./../img/theme-images/sunset.png" 50% / cover no-repeat
+    fixed`;
     console.log(el.dataset.id, themes[i].picture);
   });
 
