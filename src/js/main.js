@@ -9,6 +9,7 @@ const headerImage = document.querySelector(".header__image");
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__search-list");
+const dropDownFavList = document.querySelector(".drop-down__favourites-list");
 const inputFieldValue = document.querySelector(".drop-down__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
@@ -42,7 +43,7 @@ const o3El = document.querySelector(".air-pollution__o3-value");
 const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
 
-const themesContainer = document.querySelector(".themes__container");
+const themesContainer = document.querySelector(".themes__content");
 const moduls = document.querySelectorAll(".modul--blur");
 
 const state = {
@@ -51,6 +52,29 @@ const state = {
     lat: "53.6288297",
     lon: "11.4148038",
   },
+  favoritesList: [
+    {
+      name: "Schwerin",
+      lat: "53.6288297",
+      lon: "11.4148038",
+      country: "DE",
+      state: "Mecklenburg-Vorpommern",
+    },
+    {
+      name: "Binz",
+      lat: "54.4212",
+      lon: "13.5844",
+      country: "DE",
+      state: "Mecklenburg-Vorpommern",
+    },
+    {
+      name: "Serams",
+      lat: "54.3778071",
+      lon: "13.5885425",
+      country: "DE",
+      state: "Mecklenburg-Vorpommern",
+    },
+  ],
   query: "",
   currentWeather: [],
   forecast: [],
@@ -58,14 +82,15 @@ const state = {
   currentTheme: "03",
 };
 
-function createHtmlListEntries() {
-  state.locationsList.forEach((location) => {
+function createHtmlListEntries(inputList, outputList) {
+  inputList.forEach((location) => {
+    console.log(location);
     const listEntry = `<li class="drop-down__list-entry" data-lat="${
       location.lat
     }" data-lon="${location.lon}">${location.name} ${location.country} ${
       location.state ? location.state : ""
     }</li>`;
-    dropDownList.insertAdjacentHTML("afterbegin", listEntry);
+    outputList.insertAdjacentHTML("afterbegin", listEntry);
   });
 }
 
@@ -73,7 +98,7 @@ function displayDropDownMEnu() {
   dropDownEl.style.top = "0";
 }
 function closeDropDownMenu() {
-  dropDownEl.style.top = "-60rem";
+  dropDownEl.style.top = "-110%";
 }
 
 function clearDropDownList() {
@@ -94,6 +119,12 @@ function displayErrorMessage(message) {
     inputFieldValue.value = "";
   }, 2000);
 }
+
+// function listFavorites() {
+//   state.favoritesList.forEach((favorites) => {
+//     createHtmlListEntries()
+//   });
+// }
 
 function createForcastListentry(forecast, date = true) {
   return `
@@ -206,7 +237,7 @@ const themes = [
     id: "06",
     name: "sidney",
     mainColor: "#060600",
-    secondaryColor: "#F36281",
+    secondaryColor: "#D36A00",
     headerFontColor: "#ffffffc1",
     mainFontColor: "#ffffffc1",
     modulColor: "#ffffff0d",
@@ -256,14 +287,14 @@ const themes = [
 
 function listAllThemes() {
   themes.forEach((theme) => {
-    const htmlMarkup = `<div class="themes__container-theme" data-id="${theme.id}"></div>`;
+    const htmlMarkup = `<div class="themes__content-theme" data-id="${theme.id}"></div>`;
     themesContainer.insertAdjacentHTML("beforeend", htmlMarkup);
   });
 }
 
 function setTheme() {
   const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
-  const themesEl = document.querySelectorAll(".themes__container-theme");
+  const themesEl = document.querySelectorAll(".themes__content-theme");
 
   headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
   document.body.style.backgroundColor = currentTheme.mainColor;
@@ -299,6 +330,7 @@ function setTheme() {
 
 function updateDOM() {
   // HEADER
+
   locationName.innerHTML = state.currentWeather.name;
   locationTime.innerHTML = getDate(
     state.currentWeather.dt,
@@ -393,8 +425,28 @@ function loadDataFromLocalStorage() {
   if (themeId) state.currentTheme = themeId;
 }
 
+async function fetchAllData(e) {
+  const el = e.target;
+  if (!el) return;
+
+  const lat = el.dataset.lat;
+  const lon = el.dataset.lon;
+
+  // CURRENT WEATHER
+  state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
+  state.forecast = await fetchData(URL.forecast(lat, lon));
+  state.airPollution = await fetchData(URL.airPollution(lat, lon));
+  console.log(state);
+
+  clearForecastList();
+  updateDOM();
+  closeDropDownMenu();
+  clearDropDownList();
+}
+
 async function init() {
   loadDataFromLocalStorage();
+  createHtmlListEntries(state.favoritesList, dropDownFavList);
   listAllThemes();
   setTheme();
 
@@ -431,27 +483,11 @@ dropDownSearchBtn.addEventListener("click", async () => {
 
     // GEOCODING
     state.locationsList = await fetchData(URL.geocoding(state.query));
-    createHtmlListEntries(location);
+    createHtmlListEntries(state.locationsList, dropDownList);
     inputFieldValue.value = "";
 
     dropDownList.addEventListener("click", async (e) => {
-      const el = e.target;
-      if (!el) return;
-
-      const lat = el.dataset.lat;
-      const lon = el.dataset.lon;
-
-      // CURRENT WEATHER
-      state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
-      state.forecast = await fetchData(URL.forecast(lat, lon));
-      state.airPollution = await fetchData(URL.airPollution(lat, lon));
-      console.log(state);
-      setTheme();
-
-      clearForecastList();
-      updateDOM();
-      closeDropDownMenu();
-      clearDropDownList();
+      fetchAllData(e);
     });
   } catch (error) {
     displayErrorMessage("Keinen Ort gefunden!");
@@ -459,14 +495,19 @@ dropDownSearchBtn.addEventListener("click", async () => {
   }
 });
 
+dropDownFavList.addEventListener("click", (e) => {
+  const el = e.target.closest(".drop-down__list-entry");
+  if (!el) return;
+  fetchAllData(e);
+});
+
 themesContainer.addEventListener("click", (e) => {
-  const el = e.target.closest(".themes__container-theme");
+  const el = e.target.closest(".themes__content-theme");
   if (!el) return;
 
   const selectedId = el.dataset.id;
   state.currentTheme = selectedId;
   setTheme();
-  // setActiveTheme(el);
   closeDropDownMenu();
   safeThemeInLocalStorage(selectedId);
 });
