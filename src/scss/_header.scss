@@ -27,8 +27,8 @@
     right: 1rem;
 
     display: flex;
-    justify-content: right;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.8rem;
 
     & input {
       width: 60%;
@@ -38,7 +38,6 @@
       border-radius: 1rem;
       background-color: transparent;
       color: $color-font-primary;
-      // opacity: 0;
       transition: all 0.3s;
     }
   }
@@ -47,5 +46,13 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+  }
+
+  .bookmark__button {
+    background-color: transparent;
+    border: none;
+    & i {
+      color: red;
+    }
   }
 }

@@ -7,6 +7,8 @@ import { getDate, getTime } from "./utils";
 const headerImage = document.querySelector(".header__image");
 
 const displayDropDownBtn = document.querySelector(".current-location__button");
+const bookmarkBtn = document.querySelector(".bookmark__button");
+
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__search-list");
 const dropDownFavList = document.querySelector(".drop-down__favourites-list");
@@ -48,9 +50,12 @@ const moduls = document.querySelectorAll(".modul--blur");
 
 const state = {
   currentLocation: {
-    locationName: "Schwerin",
+    name: "Schwerin",
     lat: "53.6288297",
     lon: "11.4148038",
+    country: "DE",
+    state: "Mecklenburg-Vorpommern",
+    bookmarked: false,
   },
   favoritesList: [
     {
@@ -84,12 +89,11 @@ const state = {
 
 function createHtmlListEntries(inputList, outputList) {
   inputList.forEach((location) => {
-    console.log(location);
     const listEntry = `<li class="drop-down__list-entry" data-lat="${
       location.lat
-    }" data-lon="${location.lon}">${location.name} ${location.country} ${
-      location.state ? location.state : ""
-    }</li>`;
+    }" data-lon="${location.lon}" data-name="${location.name}">${
+      location.name
+    } ${location.country} ${location.state ? location.state : ""}</li>`;
     outputList.insertAdjacentHTML("afterbegin", listEntry);
   });
 }
@@ -303,8 +307,13 @@ function setTheme() {
   locationName.style.color = currentTheme.headerFontColor;
   locationTime.style.color = currentTheme.headerFontColor;
 
-  displayDropDownBtn.querySelector(".icon--middle").style.color =
+  displayDropDownBtn.querySelector(
+    ".current-location__button > i"
+  ).style.color = currentTheme.headerFontColor;
+
+  bookmarkBtn.querySelector(".bookmark__button > i").style.color =
     currentTheme.headerFontColor;
+
   inputFieldValue.style.backgroundColor = currentTheme.mainColor;
   dropDownSearchBtn.style.backgroundColor = currentTheme.mainColor;
   document
@@ -331,7 +340,7 @@ function setTheme() {
 function updateDOM() {
   // HEADER
 
-  locationName.innerHTML = state.currentWeather.name;
+  locationName.innerHTML = state.currentLocation.name;
   locationTime.innerHTML = getDate(
     state.currentWeather.dt,
     state.currentWeather.timezone
@@ -431,11 +440,18 @@ async function fetchAllData(e) {
 
   const lat = el.dataset.lat;
   const lon = el.dataset.lon;
+  console.log(el);
 
   // CURRENT WEATHER
   state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
   state.forecast = await fetchData(URL.forecast(lat, lon));
   state.airPollution = await fetchData(URL.airPollution(lat, lon));
+  state.currentLocation = {
+    name: `${el.dataset.name}`,
+    lat: `${el.dataset.lat}`,
+    lon: `${el.dataset.lon}`,
+  };
+
   console.log(state);
 
   clearForecastList();
@@ -510,4 +526,17 @@ themesContainer.addEventListener("click", (e) => {
   setTheme();
   closeDropDownMenu();
   safeThemeInLocalStorage(selectedId);
+});
+
+bookmarkBtn.addEventListener("click", () => {
+  state.favoritesList.push(state.currentLocation);
+  const bookmarkEl = bookmarkBtn.querySelector(".fa-bookmark");
+
+  const isBookmarked = state.currentLocation.bookmarked;
+
+  bookmarkEl.classList.toggle("fa-solid", !isBookmarked);
+  bookmarkEl.classList.toggle("fa-regular", isBookmarked);
+
+  state.currentLocation.bookmarked = !isBookmarked;
+  console.log(state.currentLocation.bookmarked);
 });
