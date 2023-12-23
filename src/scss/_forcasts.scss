@@ -7,27 +7,22 @@
   width: 25%;
 }
 
-.forecast__list {
-  border-radius: $textblock-border-radius;
-  background-color: $color-textblock-bg-blur;
+.forecast__list-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.7rem;
 
-  .forecast__list-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.7rem;
+  .forecast__time {
+    min-width: 4.5rem;
+    overflow-wrap: break-word;
+    width: 20%;
+  }
 
-    .forecast__time {
-      min-width: 4.5rem;
-      overflow-wrap: break-word;
-      width: 20%;
-    }
-
-    .forecast__icon {
-      width: 1.8rem;
-    }
+  .forecast__icon {
+    width: 1.8rem;
   }
 
   .forecast__temperature {

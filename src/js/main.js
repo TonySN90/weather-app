@@ -43,6 +43,7 @@ const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
 
 const themesContainer = document.querySelector(".themes__container");
+const moduls = document.querySelectorAll(".modul--blur");
 
 const state = {
   currentLocation: {
@@ -155,7 +156,9 @@ const themes = [
     name: "dreamy lake view",
     mainColor: "#282623",
     secondaryColor: "#F7BDAC",
-    fontColor: "#282623",
+    headerFontColor: "#282623",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
     picture: "dreamy-lake-small",
   },
 
@@ -164,7 +167,9 @@ const themes = [
     name: "beautiful mountains",
     mainColor: "#260C0D",
     secondaryColor: "#FDD7A8",
-    fontColor: "#260C0D",
+    headerFontColor: "#260C0D",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
     picture: "beautiful-mountains-small",
   },
   {
@@ -172,7 +177,9 @@ const themes = [
     name: "awakening city",
     mainColor: "#12031E",
     secondaryColor: "#918EED",
-    fontColor: "#12031E",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
     picture: "awakening-city",
   },
   {
@@ -180,7 +187,9 @@ const themes = [
     name: "sunset",
     mainColor: "#1E203D",
     secondaryColor: "#F36281",
-    fontColor: "#1E203D",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
     picture: "sunset",
   },
   {
@@ -188,7 +197,9 @@ const themes = [
     name: "beach",
     mainColor: "#F3D8B5",
     secondaryColor: "#BAE5F6",
-    fontColor: "#44B0D9",
+    headerFontColor: "#907311",
+    mainFontColor: "#907311",
+    modulColor: "#90721152",
     picture: "beach",
   },
   {
@@ -196,7 +207,9 @@ const themes = [
     name: "sidney",
     mainColor: "#060600",
     secondaryColor: "#F36281",
-    fontColor: "#1E203D",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
     picture: "sidney",
   },
 ];
@@ -209,36 +222,18 @@ function listAllThemes() {
 }
 
 function setTheme() {
-  const themeColors = {
-    "01d": "#282623",
-    "01n": "#00172D",
-    "02d": "#A44900",
-    "02n": "#000",
-    "03d": "#260C0D",
-    "03n": "#132F43",
-    "04d": "#204770",
-    "04n": "#091523",
-    "09d": "#1F2035",
-    "09n": "#000",
-    "10d": "#F3D8B5",
-    "10n": "#1E203D",
-    "11d": "#12031E",
-    "11n": "#060600",
-    "13d": "#E3ECF7",
-    "13n": "#191F3F",
-    "50d": "#000",
-    "50n": "#000",
-  };
-
   const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
   const themesEl = document.querySelectorAll(".themes__container-theme");
 
   headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
   document.body.style.backgroundColor = currentTheme.mainColor;
-  locationName.style.color = currentTheme.mainColor;
-  locationTime.style.color = currentTheme.mainColor;
+  document.body.style.color = currentTheme.mainFontColor;
+
+  locationName.style.color = currentTheme.headerFontColor;
+  locationTime.style.color = currentTheme.headerFontColor;
+
   displayDropDownBtn.querySelector(".icon--middle").style.color =
-    currentTheme.mainColor;
+    currentTheme.headerFontColor;
   inputFieldValue.style.backgroundColor = currentTheme.mainColor;
   dropDownSearchBtn.style.backgroundColor = currentTheme.mainColor;
   document
@@ -250,13 +245,16 @@ function setTheme() {
     el.style.backgroundImage = `url(./../img/theme-images/${themes[i].picture}.png)`;
     el.style.background = `"url(./../img/theme-images/sunset.png" 50% / cover no-repeat
     fixed`;
-    console.log(el.dataset.id, themes[i].picture);
   });
 
   themesEl.forEach((theme) => {
     if (theme.dataset.id == state.currentTheme)
       theme.style.border = `3px solid ${currentTheme.secondaryColor}`;
   });
+
+  moduls.forEach(
+    (module) => (module.style.backgroundColor = `${currentTheme.modulColor}`)
+  );
 }
 
 function updateDOM() {
