@@ -73,7 +73,7 @@ function displayDropDownMEnu() {
   dropDownEl.style.top = "0";
 }
 function closeDropDownMenu() {
-  dropDownEl.style.top = "-40rem";
+  dropDownEl.style.top = "-60rem";
 }
 
 function clearDropDownList() {
@@ -211,6 +211,46 @@ const themes = [
     mainFontColor: "#ffffffc1",
     modulColor: "#ffffff0d",
     picture: "sidney",
+  },
+  {
+    id: "07",
+    name: "lila",
+    mainColor: "#1F2035",
+    secondaryColor: "#D0BADE",
+    headerFontColor: "#5C517B",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
+    picture: "lila",
+  },
+  {
+    id: "08",
+    name: "spooky",
+    mainColor: "#000",
+    secondaryColor: "#D0BADE",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#a6596148",
+    picture: "spooky",
+  },
+  {
+    id: "09",
+    name: "blue-night",
+    mainColor: "#00172D",
+    secondaryColor: "#C0C0E1",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
+    picture: "blue-night",
+  },
+  {
+    id: "10",
+    name: "green-night",
+    mainColor: "#132F43",
+    secondaryColor: "#45A6B1",
+    headerFontColor: "#ffffffc1",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
+    picture: "green-night",
   },
 ];
 
