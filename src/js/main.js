@@ -12,6 +12,7 @@ const bookmarkBtn = document.querySelector(".bookmark__button");
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__search-list");
 const dropDownFavList = document.querySelector(".drop-down__favourites-list");
+const dropDownFavtitle = document.querySelector(".drop-down__favourites-title");
 const inputFieldValue = document.querySelector(".drop-down__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
@@ -57,28 +58,28 @@ const state = {
     state: "Mecklenburg-Vorpommern",
     bookmarked: false,
   },
-  favoritesList: [
-    {
-      name: "Schwerin",
-      lat: "53.6288297",
-      lon: "11.4148038",
-      country: "DE",
-      state: "Mecklenburg-Vorpommern",
-    },
-    {
-      name: "Binz",
-      lat: "54.4212",
-      lon: "13.5844",
-      country: "DE",
-      state: "Mecklenburg-Vorpommern",
-    },
-    {
-      name: "Serams",
-      lat: "54.3778071",
-      lon: "13.5885425",
-      country: "DE",
-      state: "Mecklenburg-Vorpommern",
-    },
+  bookmarkedList: [
+    // {
+    //   name: "Schwerin",
+    //   lat: "53.6288297",
+    //   lon: "11.4148038",
+    //   country: "DE",
+    //   state: "Mecklenburg-Vorpommern",
+    // },
+    // {
+    //   name: "Binz",
+    //   lat: "54.4212",
+    //   lon: "13.5844",
+    //   country: "DE",
+    //   state: "Mecklenburg-Vorpommern",
+    // },
+    // {
+    //   name: "Serams",
+    //   lat: "54.3778071",
+    //   lon: "13.5885425",
+    //   country: "DE",
+    //   state: "Mecklenburg-Vorpommern",
+    // },
   ],
   query: "",
   currentWeather: [],
@@ -88,12 +89,24 @@ const state = {
 };
 
 function createHtmlListEntries(inputList, outputList) {
+  outputList.innerHTML = "";
+
+  dropDownFavtitle.innerHTML =
+    state.bookmarkedList.length == 0
+      ? `Deine Standorte <br />
+  <br />
+  <i>Du hast noch keine Standorte hinzugefügt.</i>`
+      : `Deine Standorte`;
+
   inputList.forEach((location) => {
+    console.log(location);
     const listEntry = `<li class="drop-down__list-entry" data-lat="${
       location.lat
-    }" data-lon="${location.lon}" data-name="${location.name}">${
-      location.name
-    } ${location.country} ${location.state ? location.state : ""}</li>`;
+    }" data-lon="${location.lon}" data-name="${location.name}" data-state="${
+      location.state
+    }" data-country="${location.country}">${location.name} ${
+      location.country
+    } ${location.state ? location.state : ""}</li>`;
     outputList.insertAdjacentHTML("afterbegin", listEntry);
   });
 }
@@ -123,12 +136,6 @@ function displayErrorMessage(message) {
     inputFieldValue.value = "";
   }, 2000);
 }
-
-// function listFavorites() {
-//   state.favoritesList.forEach((favorites) => {
-//     createHtmlListEntries()
-//   });
-// }
 
 function createForcastListentry(forecast, date = true) {
   return `
@@ -450,6 +457,8 @@ async function fetchAllData(e) {
     name: `${el.dataset.name}`,
     lat: `${el.dataset.lat}`,
     lon: `${el.dataset.lon}`,
+    state: `${el.dataset.state}`,
+    country: `${el.dataset.country}`,
   };
 
   console.log(state);
@@ -461,8 +470,9 @@ async function fetchAllData(e) {
 }
 
 async function init() {
+  console.log(state);
   loadDataFromLocalStorage();
-  createHtmlListEntries(state.favoritesList, dropDownFavList);
+  createHtmlListEntries(state.bookmarkedList, dropDownFavList);
   listAllThemes();
   setTheme();
 
@@ -501,6 +511,7 @@ dropDownSearchBtn.addEventListener("click", async () => {
     state.locationsList = await fetchData(URL.geocoding(state.query));
     createHtmlListEntries(state.locationsList, dropDownList);
     inputFieldValue.value = "";
+    setTheme();
 
     dropDownList.addEventListener("click", async (e) => {
       fetchAllData(e);
@@ -529,14 +540,18 @@ themesContainer.addEventListener("click", (e) => {
 });
 
 bookmarkBtn.addEventListener("click", () => {
-  state.favoritesList.push(state.currentLocation);
   const bookmarkEl = bookmarkBtn.querySelector(".fa-bookmark");
-
   const isBookmarked = state.currentLocation.bookmarked;
 
-  bookmarkEl.classList.toggle("fa-solid", !isBookmarked);
-  bookmarkEl.classList.toggle("fa-regular", isBookmarked);
-
+  if (!isBookmarked) {
+    bookmarkEl.classList.toggle("fa-solid");
+    state.bookmarkedList.push(state.currentLocation);
+    createHtmlListEntries(state.bookmarkedList, dropDownFavList);
+    setTheme();
+  } else if (isBookmarked) {
+    bookmarkEl.classList.toggle("fa-regular", isBookmarked);
+  }
   state.currentLocation.bookmarked = !isBookmarked;
-  console.log(state.currentLocation.bookmarked);
+
+  console.log(state);
 });
