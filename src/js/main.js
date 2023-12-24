@@ -3,6 +3,7 @@
 import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
 import { getDate, getTime } from "./utils";
+import { v4 as uuidv4 } from "uuid";
 
 const headerImage = document.querySelector(".header__image");
 
@@ -51,6 +52,7 @@ const moduls = document.querySelectorAll(".modul--blur");
 
 const state = {
   currentLocation: {
+    id: uuidv4(),
     name: "Schwerin",
     lat: "53.6288297",
     lon: "11.4148038",
@@ -58,29 +60,7 @@ const state = {
     state: "Mecklenburg-Vorpommern",
     bookmarked: false,
   },
-  bookmarkedList: [
-    // {
-    //   name: "Schwerin",
-    //   lat: "53.6288297",
-    //   lon: "11.4148038",
-    //   country: "DE",
-    //   state: "Mecklenburg-Vorpommern",
-    // },
-    // {
-    //   name: "Binz",
-    //   lat: "54.4212",
-    //   lon: "13.5844",
-    //   country: "DE",
-    //   state: "Mecklenburg-Vorpommern",
-    // },
-    // {
-    //   name: "Serams",
-    //   lat: "54.3778071",
-    //   lon: "13.5885425",
-    //   country: "DE",
-    //   state: "Mecklenburg-Vorpommern",
-    // },
-  ],
+  bookmarkedList: [],
   query: "",
   currentWeather: [],
   forecast: [],
@@ -99,15 +79,36 @@ function createHtmlListEntries(inputList, outputList) {
       : `Deine Standorte`;
 
   inputList.forEach((location) => {
-    console.log(location);
-    const listEntry = `<li class="drop-down__list-entry" data-lat="${
-      location.lat
-    }" data-lon="${location.lon}" data-name="${location.name}" data-state="${
-      location.state
-    }" data-country="${location.country}">${location.name} ${
-      location.country
-    } ${location.state ? location.state : ""}</li>`;
+    const listEntry = `<li class="drop-down__list-entry" data-id="${
+      location.id
+    }" data-lat="${location.lat}" data-lon="${location.lon}" data-name="${
+      location.name
+    }" data-state="${location.state}" data-country="${location.country}">${
+      location.name
+    } ${location.country} ${location.state ? location.state : ""}</li>`;
     outputList.insertAdjacentHTML("afterbegin", listEntry);
+  });
+}
+
+function deleteListEntryFromArray() {
+  const listEntry = state.bookmarkedList.find(
+    (entry) =>
+      entry.lon === state.currentLocation.lon &&
+      entry.lat === state.currentLocation.lat
+  );
+  state.bookmarkedList = state.bookmarkedList.filter(
+    (entry) => entry !== listEntry
+  );
+  console.log(state.bookmarkedList);
+  return listEntry;
+}
+
+function deleteHtmlListEntries(arrayElement) {
+  const listEntries = document.querySelectorAll(".drop-down__list-entry");
+  console.log(listEntries);
+
+  listEntries.forEach((entry) => {
+    if (entry.dataset.id === arrayElement.id) entry.remove();
   });
 }
 
@@ -135,6 +136,11 @@ function displayErrorMessage(message) {
     inputFieldValue.style.color = "#ffffffc1";
     inputFieldValue.value = "";
   }, 2000);
+}
+
+function checkIfIsBookmarked() {
+  if (state.currentLocation.bookmarked) {
+  }
 }
 
 function createForcastListentry(forecast, date = true) {
@@ -447,13 +453,13 @@ async function fetchAllData(e) {
 
   const lat = el.dataset.lat;
   const lon = el.dataset.lon;
-  console.log(el);
 
   // CURRENT WEATHER
   state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
   state.forecast = await fetchData(URL.forecast(lat, lon));
   state.airPollution = await fetchData(URL.airPollution(lat, lon));
   state.currentLocation = {
+    id: uuidv4(),
     name: `${el.dataset.name}`,
     lat: `${el.dataset.lat}`,
     lon: `${el.dataset.lon}`,
@@ -545,11 +551,16 @@ bookmarkBtn.addEventListener("click", () => {
 
   if (!isBookmarked) {
     bookmarkEl.classList.toggle("fa-solid");
+    bookmarkEl.classList.toggle("fa-regular");
     state.bookmarkedList.push(state.currentLocation);
     createHtmlListEntries(state.bookmarkedList, dropDownFavList);
     setTheme();
   } else if (isBookmarked) {
-    bookmarkEl.classList.toggle("fa-regular", isBookmarked);
+    console.log("jo");
+    bookmarkEl.classList.toggle("fa-regular");
+    bookmarkEl.classList.toggle("fa-solid");
+    const deletedArrayElement = deleteListEntryFromArray();
+    deleteHtmlListEntries(deletedArrayElement);
   }
   state.currentLocation.bookmarked = !isBookmarked;
 
