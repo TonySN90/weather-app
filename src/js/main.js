@@ -68,6 +68,12 @@ const state = {
   currentTheme: "03",
 };
 
+function validateLocationslist(list) {
+  list.forEach((el) => {
+    el.id = uuidv4();
+  });
+}
+
 function createHtmlListEntries(inputList, outputList) {
   outputList.innerHTML = "";
 
@@ -79,6 +85,7 @@ function createHtmlListEntries(inputList, outputList) {
       : `Deine Standorte`;
 
   inputList.forEach((location) => {
+    console.log(inputList);
     const listEntry = `<li class="drop-down__list-entry" data-id="${
       location.id
     }" data-lat="${location.lat}" data-lon="${location.lon}" data-name="${
@@ -138,10 +145,10 @@ function displayErrorMessage(message) {
   }, 2000);
 }
 
-function checkIfIsBookmarked() {
-  if (state.currentLocation.bookmarked) {
-  }
-}
+// function checkIfIsBookmarked() {
+//   if (state.currentLocation.bookmarked) {
+//   }
+// }
 
 function createForcastListentry(forecast, date = true) {
   return `
@@ -453,21 +460,26 @@ async function fetchAllData(e) {
 
   const lat = el.dataset.lat;
   const lon = el.dataset.lon;
+  const idFromBookmarked = el.dataset.id;
+  console.log(idFromBookmarked === undefined);
+  console.log(idFromBookmarked == undefined);
+  console.log(typeof idFromBookmarked);
+  console.log(typeof el.dataset.id);
+  console.log(el.dataset);
 
   // CURRENT WEATHER
   state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
   state.forecast = await fetchData(URL.forecast(lat, lon));
   state.airPollution = await fetchData(URL.airPollution(lat, lon));
+  console.log(idFromBookmarked);
   state.currentLocation = {
-    id: uuidv4(),
+    id: idFromBookmarked ? idFromBookmarked : uuidv4(),
     name: `${el.dataset.name}`,
     lat: `${el.dataset.lat}`,
     lon: `${el.dataset.lon}`,
     state: `${el.dataset.state}`,
     country: `${el.dataset.country}`,
   };
-
-  console.log(state);
 
   clearForecastList();
   updateDOM();
@@ -476,7 +488,6 @@ async function fetchAllData(e) {
 }
 
 async function init() {
-  console.log(state);
   loadDataFromLocalStorage();
   createHtmlListEntries(state.bookmarkedList, dropDownFavList);
   listAllThemes();
@@ -493,6 +504,7 @@ async function init() {
   );
 
   updateDOM();
+  console.log(state);
 }
 
 init();
@@ -515,11 +527,14 @@ dropDownSearchBtn.addEventListener("click", async () => {
 
     // GEOCODING
     state.locationsList = await fetchData(URL.geocoding(state.query));
+    validateLocationslist(state.locationsList);
     createHtmlListEntries(state.locationsList, dropDownList);
+
     inputFieldValue.value = "";
     setTheme();
 
     dropDownList.addEventListener("click", async (e) => {
+      console.log(e.target);
       fetchAllData(e);
     });
   } catch (error) {
