@@ -60,17 +60,7 @@ const state = {
     state: "Mecklenburg-Vorpommern",
     bookmarked: false,
   },
-  bookmarkedList: [
-    // {
-    //   id: uuidv4(),
-    //   name: "Schwerin",
-    //   lat: "53.6288297",
-    //   lon: "11.4148038",
-    //   country: "DE",
-    //   state: "Mecklenburg-Vorpommern",
-    //   bookmarked: false,
-    // },
-  ],
+  bookmarkedList: [],
   query: "",
   currentWeather: [],
   forecast: [],
@@ -105,7 +95,7 @@ function createHtmlListEntries(inputList, outputList) {
     }" data-country="${location.country}">${location.name} ${
       location.country
     } ${location.state ? location.state : ""}</li>`;
-    outputList.insertAdjacentHTML("afterbegin", listEntry);
+    outputList.insertAdjacentHTML("beforeend", listEntry);
   });
 }
 
@@ -123,13 +113,11 @@ function deleteListEntryFromArray() {
   state.bookmarkedList = state.bookmarkedList.filter(
     (entry) => entry !== listEntry
   );
-  console.log(state.bookmarkedList);
   return listEntry;
 }
 
 function deleteHtmlListEntries(arrayElement) {
   const listEntries = document.querySelectorAll(".drop-down__list-entry");
-  console.log(listEntries);
 
   listEntries.forEach((entry) => {
     if (entry.dataset.id === arrayElement.id) entry.remove();
@@ -161,11 +149,6 @@ function displayErrorMessage(message) {
     inputFieldValue.value = "";
   }, 2000);
 }
-
-// function checkIfIsBookmarked() {
-//   if (state.currentLocation.bookmarked) {
-//   }
-// }
 
 function createForcastListentry(forecast, date = true) {
   return `
@@ -469,31 +452,45 @@ function safeThemeInLocalStorage(themeId) {
   localStorage.setItem("weatherTheme", JSON.stringify(themeId));
 }
 
-function loadDataFromLocalStorage() {
-  const themeId = JSON.parse(localStorage.getItem("weatherTheme"));
-  if (themeId) state.currentTheme = themeId;
+function safeBookmarkInLocalStorage() {
+  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarkedList));
 }
 
-async function fetchAllData(e, fromBookmarked = false) {
-  const el = e.target;
-  if (!el) return;
+function loadDataFromLocalStorage() {
+  const themeId = JSON.parse(localStorage.getItem("weatherTheme"));
+  const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
 
-  const lat = el.dataset.lat;
-  const lon = el.dataset.lon;
-  const idFromBookmarked = el.dataset.id;
+  if (themeId) state.currentTheme = themeId;
+  if (bookmarks) state.bookmarkedList = bookmarks;
+}
+
+async function fetchAllData(e, fromBookmarked = false, init = false) {
+  console.log(!init);
+  let el = "";
+  if (!init) {
+    el = e.target;
+    if (!el) return;
+  }
+  console.log(el);
+
+  const lat = init ? e.lat : el.dataset.lat;
+  console.log(lat);
+  const lon = init ? e.lon : el.dataset.lon;
+  const idFromBookmarked = init ? e.id : el.dataset.id;
 
   // CURRENT WEATHER
   state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
   state.forecast = await fetchData(URL.forecast(lat, lon));
   state.airPollution = await fetchData(URL.airPollution(lat, lon));
+
   state.currentLocation = {
     bookmarked: !fromBookmarked ? false : true,
     id: idFromBookmarked ? idFromBookmarked : uuidv4(),
-    name: `${el.dataset.name}`,
-    lat: `${el.dataset.lat}`,
-    lon: `${el.dataset.lon}`,
-    state: `${el.dataset.state}`,
-    country: `${el.dataset.country}`,
+    name: `${init ? e.name : el.dataset.name}`,
+    lat: `${init ? e.lat : el.dataset.lat}`,
+    lon: `${init ? e.lon : el.dataset.lon}`,
+    state: `${init ? e.state : el.dataset.state}`,
+    country: `${init ? e.country : el.dataset.country}`,
   };
 
   clearForecastList();
@@ -508,17 +505,23 @@ async function init() {
   listAllThemes();
   setTheme();
 
-  state.currentWeather = await fetchData(
-    URL.currentWeather(state.currentLocation.lat, state.currentLocation.lon)
-  );
-  state.forecast = await fetchData(
-    URL.forecast(state.currentLocation.lat, state.currentLocation.lon)
-  );
-  state.airPollution = await fetchData(
-    URL.airPollution(state.currentLocation.lat, state.currentLocation.lon)
-  );
+  // if (state.bookmarkedList.length > 0) {
+  //   state.currentLocation = state.bookmarkedList[0];
+  // }
 
-  updateDOM();
+  // state.currentWeather = await fetchData(
+  //   URL.currentWeather(state.currentLocation.lat, state.currentLocation.lon)
+  // );
+  // state.forecast = await fetchData(
+  //   URL.forecast(state.currentLocation.lat, state.currentLocation.lon)
+  // );
+  // state.airPollution = await fetchData(
+  //   URL.airPollution(state.currentLocation.lat, state.currentLocation.lon)
+  // );
+
+  // updateDOM();
+
+  fetchAllData(state.currentLocation, true, true);
   console.log(state);
 }
 
@@ -527,7 +530,6 @@ function changeBookmarkSign() {
   const bookmarkEl = bookmarkBtn.querySelector(".fa-bookmark");
 
   if (isBookmarked) {
-    console.log(!isBookmarked);
     bookmarkEl.classList.add("fa-solid");
     bookmarkEl.classList.remove("fa-regular");
   } else {
@@ -594,17 +596,6 @@ bookmarkBtn.addEventListener("click", () => {
   const isBookmarked = state.currentLocation.bookmarked;
 
   if (!isBookmarked) {
-    const test = state.bookmarkedList?.find(
-      (bookmark) => bookmark.lat === state.currentLocation.lat
-    );
-    console.log(state.bookmarkedList.length);
-
-    // state.bookmarkedList.find(
-    //   (entry) =>
-    //     entry.lon === state.currentLocation.lon &&
-    //     entry.lat === state.currentLocation.lat
-    // )
-
     state.bookmarkedList.push(state.currentLocation);
     createHtmlListEntries(state.bookmarkedList, dropDownFavList);
     setTheme();
@@ -613,7 +604,6 @@ bookmarkBtn.addEventListener("click", () => {
     deleteHtmlListEntries(deletedArrayElement);
   }
   state.currentLocation.bookmarked = !isBookmarked;
-
-  console.log(state);
   changeBookmarkSign();
+  safeBookmarkInLocalStorage();
 });
