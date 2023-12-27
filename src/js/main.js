@@ -3,6 +3,7 @@
 import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
 import { getDate, getTime } from "./utils";
+import { themes } from "./themes";
 import { v4 as uuidv4 } from "uuid";
 
 const headerImage = document.querySelector(".header__image");
@@ -23,6 +24,7 @@ const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
 
 const locationName = document.querySelector(".header__location-city");
+const locationSubName = document.querySelector(".header__location-city-sub");
 const locationTime = document.querySelector(".header__location-time");
 
 const now_temperature = document.querySelector(".now-section__temperature");
@@ -57,11 +59,11 @@ const moduls = document.querySelectorAll(".modul--blur");
 const state = {
   currentLocation: {
     id: uuidv4(),
-    name: "Schwerin",
-    lat: "53.6288297",
-    lon: "11.4148038",
+    name: "Berlin",
+    lat: "52.5170365",
+    lon: "13.3888599",
     country: "DE",
-    state: "Mecklenburg-Vorpommern",
+    state: "",
     bookmarked: false,
   },
   bookmarkedList: [],
@@ -76,10 +78,13 @@ function validateLocationslist(list) {
   list.forEach((el) => {
     el.id = uuidv4();
     el.bookmarked = false;
+    el.state = el.state || "";
   });
+
+  return list;
 }
 
-function createHtmlListEntries(inputList, outputList) {
+function updateHtmlListEntries(inputList, outputList) {
   outputList.innerHTML = "";
 
   dropDownBookmarksTitle.innerHTML =
@@ -89,7 +94,9 @@ function createHtmlListEntries(inputList, outputList) {
   <i>Du hast noch keine Standorte hinzugefügt.</i>`
       : `Deine Standorte`;
 
+  // console.log(inputList);
   inputList.forEach((location) => {
+    // console.log(location.state);
     const listEntry = `<li class="drop-down__list-entry" data-id="${
       location.id
     }" data-bookmarked="${location.bookmarked}" data-lat="${
@@ -117,15 +124,6 @@ function deleteListEntryFromArray() {
   state.bookmarkedList = state.bookmarkedList.filter(
     (entry) => entry !== listEntry
   );
-  return listEntry;
-}
-
-function deleteHtmlListEntries(arrayElement) {
-  const listEntries = document.querySelectorAll(".drop-down__list-entry");
-
-  listEntries.forEach((entry) => {
-    if (entry.dataset.id === arrayElement.id) entry.remove();
-  });
 }
 
 function displayDropDownMEnu() {
@@ -209,109 +207,109 @@ function filterMaxTemperatureDay() {
 
 // THEMES
 
-const themes = [
-  {
-    id: "01",
-    name: "dreamy lake view",
-    mainColor: "#282623",
-    secondaryColor: "#F7BDAC",
-    headerFontColor: "#282623",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "dreamy-lake-small",
-  },
+// const themes = [
+//   {
+//     id: "01",
+//     name: "dreamy lake view",
+//     mainColor: "#282623",
+//     secondaryColor: "#F7BDAC",
+//     headerFontColor: "#282623",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "dreamy-lake-small",
+//   },
 
-  {
-    id: "02",
-    name: "beautiful mountains",
-    mainColor: "#260C0D",
-    secondaryColor: "#FDD7A8",
-    headerFontColor: "#260C0D",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "beautiful-mountains-small",
-  },
-  {
-    id: "03",
-    name: "awakening city",
-    mainColor: "#12031E",
-    secondaryColor: "#918EED",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "awakening-city",
-  },
-  {
-    id: "04",
-    name: "sunset",
-    mainColor: "#1E203D",
-    secondaryColor: "#F36281",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "sunset",
-  },
-  {
-    id: "05",
-    name: "beach",
-    mainColor: "#F3D8B5",
-    secondaryColor: "#BAE5F6",
-    headerFontColor: "#907311",
-    mainFontColor: "#907311",
-    modulColor: "#90721152",
-    picture: "beach",
-  },
-  {
-    id: "06",
-    name: "sidney",
-    mainColor: "#060600",
-    secondaryColor: "#D36A00",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "sidney",
-  },
-  {
-    id: "07",
-    name: "lila",
-    mainColor: "#1F2035",
-    secondaryColor: "#D0BADE",
-    headerFontColor: "#5C517B",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "lila",
-  },
-  {
-    id: "08",
-    name: "spooky",
-    mainColor: "#000",
-    secondaryColor: "#D0BADE",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#a6596148",
-    picture: "spooky",
-  },
-  {
-    id: "09",
-    name: "blue-night",
-    mainColor: "#00172D",
-    secondaryColor: "#C0C0E1",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "blue-night",
-  },
-  {
-    id: "10",
-    name: "green-night",
-    mainColor: "#132F43",
-    secondaryColor: "#45A6B1",
-    headerFontColor: "#ffffffc1",
-    mainFontColor: "#ffffffc1",
-    modulColor: "#ffffff0d",
-    picture: "green-night",
-  },
-];
+//   {
+//     id: "02",
+//     name: "beautiful mountains",
+//     mainColor: "#260C0D",
+//     secondaryColor: "#FDD7A8",
+//     headerFontColor: "#260C0D",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "beautiful-mountains-small",
+//   },
+//   {
+//     id: "03",
+//     name: "awakening city",
+//     mainColor: "#12031E",
+//     secondaryColor: "#918EED",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "awakening-city",
+//   },
+//   {
+//     id: "04",
+//     name: "sunset",
+//     mainColor: "#1E203D",
+//     secondaryColor: "#F36281",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "sunset",
+//   },
+//   {
+//     id: "05",
+//     name: "beach",
+//     mainColor: "#F3D8B5",
+//     secondaryColor: "#BAE5F6",
+//     headerFontColor: "#907311",
+//     mainFontColor: "#907311",
+//     modulColor: "#90721152",
+//     picture: "beach",
+//   },
+//   {
+//     id: "06",
+//     name: "sidney",
+//     mainColor: "#060600",
+//     secondaryColor: "#D36A00",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "sidney",
+//   },
+//   {
+//     id: "07",
+//     name: "lila",
+//     mainColor: "#1F2035",
+//     secondaryColor: "#D0BADE",
+//     headerFontColor: "#5C517B",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "lila",
+//   },
+//   {
+//     id: "08",
+//     name: "spooky",
+//     mainColor: "#000",
+//     secondaryColor: "#D0BADE",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#a6596148",
+//     picture: "spooky",
+//   },
+//   {
+//     id: "09",
+//     name: "blue-night",
+//     mainColor: "#00172D",
+//     secondaryColor: "#C0C0E1",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "blue-night",
+//   },
+//   {
+//     id: "10",
+//     name: "green-night",
+//     mainColor: "#132F43",
+//     secondaryColor: "#45A6B1",
+//     headerFontColor: "#ffffffc1",
+//     mainFontColor: "#ffffffc1",
+//     modulColor: "#ffffff0d",
+//     picture: "green-night",
+//   },
+// ];
 
 function listAllThemes() {
   themes.forEach((theme) => {
@@ -329,6 +327,7 @@ function setTheme() {
   document.body.style.color = currentTheme.mainFontColor;
 
   locationName.style.color = currentTheme.headerFontColor;
+  locationSubName.style.color = currentTheme.headerFontColor;
   locationTime.style.color = currentTheme.headerFontColor;
 
   displayDropDownBtn.querySelector(
@@ -365,6 +364,7 @@ function updateDOM() {
   // HEADER
 
   locationName.innerHTML = state.currentLocation.name;
+  locationSubName.innerHTML = state.currentWeather.name;
   locationTime.innerHTML = getDate(
     state.currentWeather.dt,
     state.currentWeather.timezone
@@ -514,7 +514,7 @@ async function init() {
   } else {
     fetchAllData(state.currentLocation, false, true);
   }
-  createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
+  updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
   listAllThemes();
   setTheme();
   console.log(state);
@@ -552,9 +552,9 @@ dropDownSearchBtn.addEventListener("click", async () => {
     state.query = inputFieldValue.value;
 
     // GEOCODING
-    state.locationsList = await fetchData(URL.geocoding(state.query));
-    validateLocationslist(state.locationsList);
-    createHtmlListEntries(state.locationsList, dropDownList);
+    const locationsList = await fetchData(URL.geocoding(state.query));
+    state.locationsList = validateLocationslist(locationsList);
+    updateHtmlListEntries(state.locationsList, dropDownList);
 
     inputFieldValue.value = "";
     setTheme();
@@ -592,14 +592,17 @@ bookmarkBtn.addEventListener("click", () => {
 
   if (!isBookmarked) {
     state.bookmarkedList.push(state.currentLocation);
-    createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
+    updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
     setTheme();
   } else if (isBookmarked) {
-    // createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
-    const deletedArrayElement = deleteListEntryFromArray();
-    deleteHtmlListEntries(deletedArrayElement);
+    deleteListEntryFromArray();
+    updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
+    setTheme();
   }
   state.currentLocation.bookmarked = !isBookmarked;
   changeBookmarkSign();
   safeBookmarkInLocalStorage();
 });
+
+// const deletedArrayElement = deleteListEntryFromArray();
+// deleteHtmlListEntries(deletedArrayElement);
