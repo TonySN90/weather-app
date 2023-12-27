@@ -2,11 +2,10 @@
 
 import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
-import { getDate, getTime } from "./utils";
-import { themes } from "./themes";
+import { getDate, getTime, filterMaxTemperatureDay } from "./utils";
+import { listAllThemes, setTheme } from "./themes";
+import { DEFAULT_LOCATION } from "./config";
 import { v4 as uuidv4 } from "uuid";
-
-const headerImage = document.querySelector(".header__image");
 
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const bookmarkBtn = document.querySelector(".bookmark__button");
@@ -54,18 +53,9 @@ const sunriseEl = document.querySelector(".sunrise__time");
 const sunsetEl = document.querySelector(".sunset__time");
 
 const themesContainer = document.querySelector(".themes__content");
-const moduls = document.querySelectorAll(".modul--blur");
 
 const state = {
-  currentLocation: {
-    id: uuidv4(),
-    name: "Berlin",
-    lat: "52.5170365",
-    lon: "13.3888599",
-    country: "DE",
-    state: "",
-    bookmarked: false,
-  },
+  currentLocation: DEFAULT_LOCATION,
   bookmarkedList: [],
   query: "",
   currentWeather: [],
@@ -74,7 +64,7 @@ const state = {
   currentTheme: "03",
 };
 
-function validateLocationslist(list) {
+function validateLocationsList(list) {
   list.forEach((el) => {
     el.id = uuidv4();
     el.bookmarked = false;
@@ -84,7 +74,7 @@ function validateLocationslist(list) {
   return list;
 }
 
-function updateHtmlListEntries(inputList, outputList) {
+function updateBookmarkDomList(inputList, outputList) {
   outputList.innerHTML = "";
 
   dropDownBookmarksTitle.innerHTML =
@@ -94,9 +84,7 @@ function updateHtmlListEntries(inputList, outputList) {
   <i>Du hast noch keine Standorte hinzugefügt.</i>`
       : `Deine Standorte`;
 
-  // console.log(inputList);
   inputList.forEach((location) => {
-    // console.log(location.state);
     const listEntry = `<li class="drop-down__list-entry" data-id="${
       location.id
     }" data-bookmarked="${location.bookmarked}" data-lat="${
@@ -118,7 +106,7 @@ function findBookmarkEntry() {
   );
 }
 
-function deleteListEntryFromArray() {
+function deleteBookmarkEntry() {
   const listEntry = findBookmarkEntry();
 
   state.bookmarkedList = state.bookmarkedList.filter(
@@ -181,196 +169,16 @@ function createForecastListEntry(forecast, date = true) {
   </li>`;
 }
 
-function filterMaxTemperatureDay() {
-  const maxTempByDay = {};
-
-  state.forecast.list.forEach((entry) => {
-    const date = entry.dt_txt.split(" ")[0]; // extract the date
-    const temp = entry.main.temp; // get the temperature
-
-    // Check if there is already an entry for this day
-    if (!maxTempByDay[date] || temp > maxTempByDay[date].maxTemp) {
-      maxTempByDay[date] = {
-        maxTemp: temp,
-        weatherEntry: entry,
-      };
-    }
-  });
-
-  // Extract the weather entries of the days with maximum temperature
-  const maxTempDays = Object.values(maxTempByDay).map(
-    (day) => day.weatherEntry
-  );
-
-  return maxTempDays;
-}
-
-// THEMES
-
-// const themes = [
-//   {
-//     id: "01",
-//     name: "dreamy lake view",
-//     mainColor: "#282623",
-//     secondaryColor: "#F7BDAC",
-//     headerFontColor: "#282623",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "dreamy-lake-small",
-//   },
-
-//   {
-//     id: "02",
-//     name: "beautiful mountains",
-//     mainColor: "#260C0D",
-//     secondaryColor: "#FDD7A8",
-//     headerFontColor: "#260C0D",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "beautiful-mountains-small",
-//   },
-//   {
-//     id: "03",
-//     name: "awakening city",
-//     mainColor: "#12031E",
-//     secondaryColor: "#918EED",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "awakening-city",
-//   },
-//   {
-//     id: "04",
-//     name: "sunset",
-//     mainColor: "#1E203D",
-//     secondaryColor: "#F36281",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "sunset",
-//   },
-//   {
-//     id: "05",
-//     name: "beach",
-//     mainColor: "#F3D8B5",
-//     secondaryColor: "#BAE5F6",
-//     headerFontColor: "#907311",
-//     mainFontColor: "#907311",
-//     modulColor: "#90721152",
-//     picture: "beach",
-//   },
-//   {
-//     id: "06",
-//     name: "sidney",
-//     mainColor: "#060600",
-//     secondaryColor: "#D36A00",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "sidney",
-//   },
-//   {
-//     id: "07",
-//     name: "lila",
-//     mainColor: "#1F2035",
-//     secondaryColor: "#D0BADE",
-//     headerFontColor: "#5C517B",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "lila",
-//   },
-//   {
-//     id: "08",
-//     name: "spooky",
-//     mainColor: "#000",
-//     secondaryColor: "#D0BADE",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#a6596148",
-//     picture: "spooky",
-//   },
-//   {
-//     id: "09",
-//     name: "blue-night",
-//     mainColor: "#00172D",
-//     secondaryColor: "#C0C0E1",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "blue-night",
-//   },
-//   {
-//     id: "10",
-//     name: "green-night",
-//     mainColor: "#132F43",
-//     secondaryColor: "#45A6B1",
-//     headerFontColor: "#ffffffc1",
-//     mainFontColor: "#ffffffc1",
-//     modulColor: "#ffffff0d",
-//     picture: "green-night",
-//   },
-// ];
-
-function listAllThemes() {
-  themes.forEach((theme) => {
-    const htmlMarkup = `<div class="themes__content-theme" data-id="${theme.id}"></div>`;
-    themesContainer.insertAdjacentHTML("beforeend", htmlMarkup);
-  });
-}
-
-function setTheme() {
-  const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
-  const themesEl = document.querySelectorAll(".themes__content-theme");
-
-  headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
-  document.body.style.backgroundColor = currentTheme.mainColor;
-  document.body.style.color = currentTheme.mainFontColor;
-
-  locationName.style.color = currentTheme.headerFontColor;
-  locationSubName.style.color = currentTheme.headerFontColor;
-  locationTime.style.color = currentTheme.headerFontColor;
-
-  displayDropDownBtn.querySelector(
-    ".current-location__button > i"
-  ).style.color = currentTheme.headerFontColor;
-
-  bookmarkBtn.querySelector(".bookmark__button > i").style.color =
-    currentTheme.headerFontColor;
-
-  inputFieldValue.style.backgroundColor = currentTheme.mainColor;
-  dropDownSearchBtn.style.backgroundColor = currentTheme.mainColor;
-  document
-    .querySelectorAll(".drop-down__list-entry")
-    .forEach((el) => (el.style.backgroundColor = currentTheme.mainColor));
-
-  themesEl.forEach((el, i) => {
-    el.style.border = `3px solid ${currentTheme.mainColor}`;
-    el.style.backgroundImage = `url(./../img/theme-images/${themes[i].picture}.png)`;
-    el.style.background = `"url(./../img/theme-images/sunset.png" 50% / cover no-repeat
-    fixed`;
-  });
-
-  themesEl.forEach((theme) => {
-    if (theme.dataset.id == state.currentTheme)
-      theme.style.border = `3px solid ${currentTheme.secondaryColor}`;
-  });
-
-  moduls.forEach(
-    (module) => (module.style.backgroundColor = `${currentTheme.modulColor}`)
-  );
-}
-
-function updateDOM() {
-  // HEADER
-
+function displayHeader() {
   locationName.innerHTML = state.currentLocation.name;
   locationSubName.innerHTML = state.currentWeather.name;
   locationTime.innerHTML = getDate(
     state.currentWeather.dt,
     state.currentWeather.timezone
   );
+}
 
-  // NOW SECTION
+function displayNowSection() {
   now_description.innerHTML = `Aktuell: ${state.currentWeather.weather[0].description}`;
   now_temperature.innerHTML = `${Math.round(state.currentWeather.main.temp)}°C`;
   now_feelsLike.innerHTML = `Gefühlt wie ${Math.round(
@@ -382,26 +190,9 @@ function updateDOM() {
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
   )}kmh/h`;
+}
 
-  // HOURLY FORCAST
-  const forcast24Hours = state.forecast.list.slice(0, 8);
-  forcast24Hours.forEach((el) => {
-    const listEntry = createForecastListEntry(el);
-    hourlyForcastEl.insertAdjacentHTML("beforeend", listEntry);
-  });
-
-  // 5-DAY FORCAST
-  const maxTempDays = filterMaxTemperatureDay();
-  maxTempDays.forEach((el) => {
-    const listEntry = createForecastListEntry(el, false);
-    fiveDaysForcastEl.insertAdjacentHTML("beforeend", listEntry);
-  });
-  document
-    .querySelector(".five-days-forecast__list")
-    .firstElementChild.querySelector(".forecast__time").innerHTML = "Morgen";
-
-  // AIR-POLLUTION
-
+function displayAQI() {
   const aqi = {
     quality: {
       1: "sehr gut",
@@ -437,7 +228,28 @@ function updateDOM() {
   o3El.innerHTML = `${state.airPollution.list[0].components.o3.toFixed(
     2
   )} μg/m3`;
+}
 
+function displayHourlyForecast() {
+  const forcast24Hours = state.forecast.list.slice(0, 8);
+  forcast24Hours.forEach((el) => {
+    const listEntry = createForecastListEntry(el);
+    hourlyForcastEl.insertAdjacentHTML("beforeend", listEntry);
+  });
+}
+
+function displayFiveDayForecast() {
+  const maxTempDays = filterMaxTemperatureDay(state);
+  maxTempDays.forEach((el) => {
+    const listEntry = createForecastListEntry(el, false);
+    fiveDaysForcastEl.insertAdjacentHTML("beforeend", listEntry);
+  });
+  document
+    .querySelector(".five-days-forecast__list")
+    .firstElementChild.querySelector(".forecast__time").innerHTML = "Morgen";
+}
+
+function displaySunriseSunset() {
   // SUNRISE-/SET
   sunriseEl.innerHTML = `${getTime(
     state.currentWeather.sys.sunrise,
@@ -447,8 +259,15 @@ function updateDOM() {
     state.currentWeather.sys.sunset,
     state.currentWeather.timezone
   )} Uhr`;
+}
 
-  //BOOKMARK-Sign
+function updateDOM() {
+  displayHeader();
+  displayNowSection();
+  displayHourlyForecast();
+  displayFiveDayForecast();
+  displayAQI();
+  displaySunriseSunset();
   changeBookmarkSign();
 }
 
@@ -514,23 +333,17 @@ async function init() {
   } else {
     fetchAllData(state.currentLocation, false, true);
   }
-  updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
+  updateBookmarkDomList(state.bookmarkedList, dropDownBookmarksList);
   listAllThemes();
-  setTheme();
-  console.log(state);
+  setTheme(state);
 }
 
 function changeBookmarkSign() {
   const isBookmarked = state.currentLocation.bookmarked;
   const bookmarkEl = bookmarkBtn.querySelector(".fa-bookmark");
 
-  if (isBookmarked) {
-    bookmarkEl.classList.add("fa-solid");
-    bookmarkEl.classList.remove("fa-regular");
-  } else {
-    bookmarkEl.classList.remove("fa-solid");
-    bookmarkEl.classList.add("fa-regular");
-  }
+  bookmarkEl.classList.toggle("fa-solid", isBookmarked);
+  bookmarkEl.classList.toggle("fa-regular", !isBookmarked);
 }
 
 init();
@@ -553,11 +366,11 @@ dropDownSearchBtn.addEventListener("click", async () => {
 
     // GEOCODING
     const locationsList = await fetchData(URL.geocoding(state.query));
-    state.locationsList = validateLocationslist(locationsList);
-    updateHtmlListEntries(state.locationsList, dropDownList);
+    state.locationsList = validateLocationsList(locationsList);
+    updateBookmarkDomList(state.locationsList, dropDownList);
 
     inputFieldValue.value = "";
-    setTheme();
+    setTheme(state);
 
     dropDownList.addEventListener("click", async (e) => {
       fetchAllData(e);
@@ -566,14 +379,12 @@ dropDownSearchBtn.addEventListener("click", async () => {
     displayErrorMessage("Keinen Ort gefunden!");
     console.log(`Errormeldung: ${error}`);
   }
-  console.log(state);
 });
 
 dropDownBookmarksList.addEventListener("click", (e) => {
   const el = e.target.closest(".drop-down__list-entry");
   if (!el) return;
   fetchAllData(e, true);
-  console.log(state);
 });
 
 themesContainer.addEventListener("click", (e) => {
@@ -582,7 +393,7 @@ themesContainer.addEventListener("click", (e) => {
 
   const selectedId = el.dataset.id;
   state.currentTheme = selectedId;
-  setTheme();
+  setTheme(state);
   closeDropDownMenu();
   safeThemeInLocalStorage(selectedId);
 });
@@ -590,19 +401,19 @@ themesContainer.addEventListener("click", (e) => {
 bookmarkBtn.addEventListener("click", () => {
   const isBookmarked = state.currentLocation.bookmarked;
 
-  if (!isBookmarked) {
+  function addBookmark() {
     state.bookmarkedList.push(state.currentLocation);
-    updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
-    setTheme();
-  } else if (isBookmarked) {
-    deleteListEntryFromArray();
-    updateHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
-    setTheme();
   }
+
+  if (!isBookmarked) {
+    addBookmark();
+  } else if (isBookmarked) {
+    deleteBookmarkEntry();
+  }
+
+  updateBookmarkDomList(state.bookmarkedList, dropDownBookmarksList);
+  setTheme(state);
   state.currentLocation.bookmarked = !isBookmarked;
   changeBookmarkSign();
   safeBookmarkInLocalStorage();
 });
-
-// const deletedArrayElement = deleteListEntryFromArray();
-// deleteHtmlListEntries(deletedArrayElement);

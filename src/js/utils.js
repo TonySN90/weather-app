@@ -57,3 +57,27 @@ export function getTime(dateUnix, mez) {
 
   return mez ? formattedTime : timeString;
 }
+
+export function filterMaxTemperatureDay(state) {
+  const maxTempByDay = {};
+
+  state.forecast.list.forEach((entry) => {
+    const date = entry.dt_txt.split(" ")[0]; // extract the date
+    const temp = entry.main.temp; // get the temperature
+
+    // Check if there is already an entry for this day
+    if (!maxTempByDay[date] || temp > maxTempByDay[date].maxTemp) {
+      maxTempByDay[date] = {
+        maxTemp: temp,
+        weatherEntry: entry,
+      };
+    }
+  });
+
+  // Extract the weather entries of the days with maximum temperature
+  const maxTempDays = Object.values(maxTempByDay).map(
+    (day) => day.weatherEntry
+  );
+
+  return maxTempDays;
+}
