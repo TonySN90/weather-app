@@ -4,7 +4,12 @@ import "./../scss/main.scss";
 import { fetchData, URL } from "./api";
 import { getDate, getTime, filterMaxTemperatureDay } from "./utils";
 import { listAllThemes, setTheme } from "./themes";
-import { DEFAULT_LOCATION } from "./config";
+import {
+  DEFAULT_LOCATION,
+  DEFAULT_THEME,
+  LOCALSTORAGE_KEY_BOOKMARKS,
+  LOCALSTORAGE_KEY_THEME,
+} from "./config";
 import { v4 as uuidv4 } from "uuid";
 
 const displayDropDownBtn = document.querySelector(".current-location__button");
@@ -61,7 +66,7 @@ const state = {
   currentWeather: [],
   forecast: [],
   locationsList: [],
-  currentTheme: "03",
+  currentTheme: DEFAULT_THEME,
 };
 
 function validateLocationsList(list) {
@@ -272,16 +277,21 @@ function updateDOM() {
 }
 
 function safeThemeInLocalStorage(themeId) {
-  localStorage.setItem("weatherTheme", JSON.stringify(themeId));
+  localStorage.setItem(LOCALSTORAGE_KEY_THEME, JSON.stringify(themeId));
 }
 
 function safeBookmarkInLocalStorage() {
-  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarkedList));
+  localStorage.setItem(
+    LOCALSTORAGE_KEY_BOOKMARKS,
+    JSON.stringify(state.bookmarkedList)
+  );
 }
 
 function loadDataFromLocalStorage() {
-  const themeId = JSON.parse(localStorage.getItem("weatherTheme"));
-  const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+  const themeId = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY_THEME));
+  const bookmarks = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY_BOOKMARKS)
+  );
 
   if (themeId) state.currentTheme = themeId;
   if (bookmarks) state.bookmarkedList = bookmarks;

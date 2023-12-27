@@ -10,3 +10,6 @@ export const DEFAULT_LOCATION = {
   state: "",
   bookmarked: false,
 };
+export const DEFAULT_THEME = "02";
+export const LOCALSTORAGE_KEY_THEME = "weatherappTheme";
+export const LOCALSTORAGE_KEY_BOOKMARKS = "weatherappTBookmark";
