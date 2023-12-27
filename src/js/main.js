@@ -12,8 +12,12 @@ const bookmarkBtn = document.querySelector(".bookmark__button");
 
 const dropDownEl = document.querySelector(".drop-down");
 const dropDownList = document.querySelector(".drop-down__search-list");
-const dropDownFavList = document.querySelector(".drop-down__favourites-list");
-const dropDownFavtitle = document.querySelector(".drop-down__favourites-title");
+const dropDownBookmarksList = document.querySelector(
+  ".drop-down__favourites-list"
+);
+const dropDownBookmarksTitle = document.querySelector(
+  ".drop-down__favourites-title"
+);
 const inputFieldValue = document.querySelector(".drop-down__searchfield");
 const dropDownSearchBtn = document.querySelector(".drop-down__search_button");
 const closeDropDownBtn = document.querySelector(".drop-down__close-button");
@@ -78,7 +82,7 @@ function validateLocationslist(list) {
 function createHtmlListEntries(inputList, outputList) {
   outputList.innerHTML = "";
 
-  dropDownFavtitle.innerHTML =
+  dropDownBookmarksTitle.innerHTML =
     state.bookmarkedList.length == 0
       ? `Deine Standorte <br />
   <br />
@@ -150,7 +154,7 @@ function displayErrorMessage(message) {
   }, 2000);
 }
 
-function createForcastListentry(forecast, date = true) {
+function createForecastListEntry(forecast, date = true) {
   return `
   <li class="forecast__list-card">
     <div class="forecast__time">${
@@ -382,14 +386,14 @@ function updateDOM() {
   // HOURLY FORCAST
   const forcast24Hours = state.forecast.list.slice(0, 8);
   forcast24Hours.forEach((el) => {
-    const listEntry = createForcastListentry(el);
+    const listEntry = createForecastListEntry(el);
     hourlyForcastEl.insertAdjacentHTML("beforeend", listEntry);
   });
 
   // 5-DAY FORCAST
   const maxTempDays = filterMaxTemperatureDay();
   maxTempDays.forEach((el) => {
-    const listEntry = createForcastListentry(el, false);
+    const listEntry = createForecastListEntry(el, false);
     fiveDaysForcastEl.insertAdjacentHTML("beforeend", listEntry);
   });
   document
@@ -465,63 +469,54 @@ function loadDataFromLocalStorage() {
 }
 
 async function fetchAllData(e, fromBookmarked = false, init = false) {
-  console.log(!init);
-  let el = "";
-  if (!init) {
-    el = e.target;
-    if (!el) return;
+  try {
+    let el = "";
+
+    if (!init) {
+      el = e.target;
+      if (!el) return;
+    }
+
+    const lat = init ? e.lat : el.dataset.lat;
+    const lon = init ? e.lon : el.dataset.lon;
+    const idFromBookmarked = init ? e.id : el.dataset.id;
+
+    // CURRENT WEATHER
+    state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
+    state.forecast = await fetchData(URL.forecast(lat, lon));
+    state.airPollution = await fetchData(URL.airPollution(lat, lon));
+
+    state.currentLocation = {
+      bookmarked: !fromBookmarked ? false : true,
+      id: idFromBookmarked ? idFromBookmarked : uuidv4(),
+      name: `${init ? e.name : el.dataset.name}`,
+      lat: `${init ? e.lat : el.dataset.lat}`,
+      lon: `${init ? e.lon : el.dataset.lon}`,
+      state: `${init ? e.state : el.dataset.state}`,
+      country: `${init ? e.country : el.dataset.country}`,
+    };
+
+    clearForecastList();
+    updateDOM();
+    closeDropDownMenu();
+    clearDropDownList();
+  } catch (error) {
+    throw error;
   }
-  console.log(el);
-
-  const lat = init ? e.lat : el.dataset.lat;
-  console.log(lat);
-  const lon = init ? e.lon : el.dataset.lon;
-  const idFromBookmarked = init ? e.id : el.dataset.id;
-
-  // CURRENT WEATHER
-  state.currentWeather = await fetchData(URL.currentWeather(lat, lon));
-  state.forecast = await fetchData(URL.forecast(lat, lon));
-  state.airPollution = await fetchData(URL.airPollution(lat, lon));
-
-  state.currentLocation = {
-    bookmarked: !fromBookmarked ? false : true,
-    id: idFromBookmarked ? idFromBookmarked : uuidv4(),
-    name: `${init ? e.name : el.dataset.name}`,
-    lat: `${init ? e.lat : el.dataset.lat}`,
-    lon: `${init ? e.lon : el.dataset.lon}`,
-    state: `${init ? e.state : el.dataset.state}`,
-    country: `${init ? e.country : el.dataset.country}`,
-  };
-
-  clearForecastList();
-  updateDOM();
-  closeDropDownMenu();
-  clearDropDownList();
 }
 
 async function init() {
   loadDataFromLocalStorage();
-  createHtmlListEntries(state.bookmarkedList, dropDownFavList);
+
+  if (state.bookmarkedList.length !== 0) {
+    state.currentLocation = state.bookmarkedList[0];
+    fetchAllData(state.currentLocation, true, true);
+  } else {
+    fetchAllData(state.currentLocation, false, true);
+  }
+  createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
   listAllThemes();
   setTheme();
-
-  // if (state.bookmarkedList.length > 0) {
-  //   state.currentLocation = state.bookmarkedList[0];
-  // }
-
-  // state.currentWeather = await fetchData(
-  //   URL.currentWeather(state.currentLocation.lat, state.currentLocation.lon)
-  // );
-  // state.forecast = await fetchData(
-  //   URL.forecast(state.currentLocation.lat, state.currentLocation.lon)
-  // );
-  // state.airPollution = await fetchData(
-  //   URL.airPollution(state.currentLocation.lat, state.currentLocation.lon)
-  // );
-
-  // updateDOM();
-
-  fetchAllData(state.currentLocation, true, true);
   console.log(state);
 }
 
@@ -574,7 +569,7 @@ dropDownSearchBtn.addEventListener("click", async () => {
   console.log(state);
 });
 
-dropDownFavList.addEventListener("click", (e) => {
+dropDownBookmarksList.addEventListener("click", (e) => {
   const el = e.target.closest(".drop-down__list-entry");
   if (!el) return;
   fetchAllData(e, true);
@@ -597,9 +592,10 @@ bookmarkBtn.addEventListener("click", () => {
 
   if (!isBookmarked) {
     state.bookmarkedList.push(state.currentLocation);
-    createHtmlListEntries(state.bookmarkedList, dropDownFavList);
+    createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
     setTheme();
   } else if (isBookmarked) {
+    // createHtmlListEntries(state.bookmarkedList, dropDownBookmarksList);
     const deletedArrayElement = deleteListEntryFromArray();
     deleteHtmlListEntries(deletedArrayElement);
   }
