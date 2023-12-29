@@ -152,7 +152,7 @@ function createForecastListEntry(forecast, date = true) {
       date ? getTime(forecast.dt, false) : getDate(forecast.dt, false, true)
     }</div>
     <div class="informations__container">
-      <img src="./img/weather-icons-125x125/${
+      <img src="./assets/img/weather-icons-125x125/${
         forecast.weather[0].icon
       }.png" alt="weather Icon" class="forecast__icon" />
       <div class="forecast__temperature">${Math.round(
@@ -191,7 +191,7 @@ function displayNowSection() {
   )}°C`;
   now_airPressure.innerHTML = `${state.currentWeather.main.pressure}hPa`;
   now_humidity.innerHTML = `${state.currentWeather.main.humidity}%`;
-  now_sky.src = `./img/weather-icons-125x125/${state.currentWeather.weather[0].icon}.png`;
+  now_sky.src = `./assets/img/weather-icons-125x125/${state.currentWeather.weather[0].icon}.png`;
   now_wind.innerHTML = `${Math.round(
     state.currentWeather.wind.speed * 3.6
   )}kmh/h`;

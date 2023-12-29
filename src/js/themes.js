@@ -1,3 +1,5 @@
+import themeImg from "./../assets/img/theme-images/sunset.png";
+
 const displayDropDownBtn = document.querySelector(".current-location__button");
 const bookmarkBtn = document.querySelector(".bookmark__button");
 
@@ -114,11 +116,33 @@ export const themes = [
     modulColor: "#ffffff0d",
     picture: "green-night",
   },
+  {
+    id: "11",
+    name: "mountains-by-day",
+    mainColor: "#091523",
+    secondaryColor: "#49628A",
+    headerFontColor: "#091523",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
+    picture: "mountains-by-day",
+  },
+  {
+    id: "12",
+    name: "desert",
+    mainColor: "#3B0E2B",
+    secondaryColor: "#5E144A",
+    headerFontColor: "#3B0E2B",
+    mainFontColor: "#ffffffc1",
+    modulColor: "#ffffff0d",
+    picture: "desert",
+  },
 ];
 
 export function listAllThemes() {
+  console.log(themeImg);
   themes.forEach((theme) => {
     const htmlMarkup = `<div class="themes__content-theme" data-id="${theme.id}"></div>`;
+    // const htmlMarkup = `<div class="themes__content-theme" data-id="${theme.id}"></div>`;
     themesContainer.insertAdjacentHTML("beforeend", htmlMarkup);
   });
 }
@@ -127,7 +151,8 @@ export function setTheme(state) {
   const currentTheme = themes.find((theme) => theme.id == state.currentTheme);
   const themesEl = document.querySelectorAll(".themes__content-theme");
 
-  headerImage.style.backgroundImage = `url(./../img/theme-images/${currentTheme.picture}.png)`;
+  headerImage.style.backgroundImage = `url(./../assets/img/theme-images/${currentTheme.picture}.png)`;
+  // headerImage.style.backgroundImage = `url(${themeImg})`;
   document.body.style.backgroundColor = currentTheme.mainColor;
   document.body.style.color = currentTheme.mainFontColor;
 
@@ -150,8 +175,8 @@ export function setTheme(state) {
 
   themesEl.forEach((el, i) => {
     el.style.border = `3px solid ${currentTheme.mainColor}`;
-    el.style.backgroundImage = `url(./../img/theme-images/${themes[i].picture}.png)`;
-    el.style.background = `"url(./../img/theme-images/sunset.png" 50% / cover no-repeat
+    el.style.backgroundImage = `url(./../assets/img/theme-images/${themes[i].picture}.png)`;
+    el.style.background = `"url(./../assets/img/theme-images/sunset.png" 50% / cover no-repeat
       fixed`;
   });
 
