@@ -1,89 +1,84 @@
-@media only screen and (min-width: 550px) {
-  .informations__container {
-    width: 18%;
-  }
+// @media only screen and (min-width: 550px) {
+//   .informations__container {
+//     width: 18%;
+//   }
 
-  .forecast__list {
-    .forecast__list-card {
-      justify-content: center;
-      .forecast__time {
-        width: 18%;
-      }
-    }
-  }
-}
+//   .forecast__list {
+//     .forecast__list-card {
+//       justify-content: center;
+//       .forecast__time {
+//         width: 18%;
+//       }
+//     }
+//   }
+// }
 
-@media only screen and (min-width: 750px) {
-  .weatherdata__container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
+// @media only screen and (min-width: 750px) {
+//   .weatherdata__container {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     align-items: center;
+//   }
 
-  .header__container {
-    .header__image {
-      width: 100%;
-      padding-bottom: 48%;
+//   .header__container {
+//     .header__image {
+//       width: 100%;
+//       padding-bottom: 48%;
 
-      background-image: url("./../img/header_1200x580.svg");
-      // background-image: url("./../img/header__bg-sunrise_01-1200x580.png");
-      background-size: cover;
-    }
-  }
+//       background-image: url("./../img/header_1200x580.svg");
+//       background-size: cover;
+//     }
+//   }
 
-  #now-section {
-    height: 20rem;
-  }
+//   #now-section {
+//     height: 20rem;
+//   }
 
-  .now-section__container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    height: 100%;
-    background-color: $color-textblock-bg-blur;
-  }
+//   .now-section__container {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     align-items: center;
+//     gap: 1rem;
+//     height: 100%;
+//     background-color: $color-textblock-bg-blur;
+//   }
 
-  section {
-    width: 50%;
-  }
+//   .block__container {
+//     width: 100%;
+//   }
 
-  .block__container {
-    width: 100%;
-  }
+//   .header__container {
+//     .header__location-city {
+//       font-size: 3rem;
+//     }
+//     .header__location-time {
+//       font-size: 1.5rem;
+//     }
+//   }
 
-  .header__container {
-    .header__location-city {
-      font-size: 3rem;
-    }
-    .header__location-time {
-      font-size: 1.5rem;
-    }
-  }
+//   .informations__container {
+//     width: 25%;
+//   }
 
-  .informations__container {
-    width: 25%;
-  }
+//   .forecast__list {
+//     .forecast__list-card {
+//       justify-content: space-between;
+//       .forecast__time {
+//         width: 20%;
+//       }
+//     }
+//   }
+// }
 
-  .forecast__list {
-    .forecast__list-card {
-      justify-content: space-between;
-      .forecast__time {
-        width: 20%;
-      }
-    }
-  }
-}
+// @media only screen and (min-width: 1200px) {
+//   .weatherdata__container {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
 
-@media only screen and (min-width: 1200px) {
-  .weatherdata__container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    width: 75%;
-    margin-inline: auto;
-  }
-}
+//     width: 75%;
+//     margin-inline: auto;
+//   }
+// }

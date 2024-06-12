@@ -2,6 +2,9 @@ body {
   background-color: #00172d;
   color: $color-font-primary;
   font-family: $font-family-primary;
+
+  display: flex;
+  justify-content: center;
 }
 
 * {
@@ -43,4 +46,10 @@ body {
 .modul--blur {
   border-radius: $textblock-border-radius;
   background-color: $color-textblock-bg-blur;
+}
+
+.app-container {
+  width: 500px;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.108);
+  position: relative;
 }
